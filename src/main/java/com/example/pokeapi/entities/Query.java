@@ -4,19 +4,17 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.repository.MongoRepository;
+
 
 import java.util.List;
-import java.util.Optional;
 
 @Document(collection = "Query")
 public class Query {
     @Id
-    private ObjectId id;
+    private String id;
     private String queryString;
     @DBRef
-    List<Pokemon> pokemons;
+    private List<Pokemon> pokemons;
 
     public Query() {
     }
@@ -26,11 +24,11 @@ public class Query {
         this.pokemons = pokemons;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }
 

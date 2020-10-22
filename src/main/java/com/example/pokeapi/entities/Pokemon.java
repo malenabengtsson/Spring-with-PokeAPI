@@ -1,20 +1,17 @@
 package com.example.pokeapi.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "Pokemon")
 public class Pokemon {
 
     @Id
-    private ObjectId objectId;
+    private String id;
 
     @JsonProperty("order")
     private String order;
@@ -48,12 +45,12 @@ public class Pokemon {
         this.game_indices = game_indices;
     }
 
-    public ObjectId getId() {
-        return objectId;
+    public String getId() {
+        return id;
     }
 
-    public void setObjectId(ObjectId objectId) {
-        this.objectId = objectId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getOrder() {
