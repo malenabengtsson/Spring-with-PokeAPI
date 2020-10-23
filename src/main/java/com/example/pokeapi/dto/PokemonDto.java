@@ -1,30 +1,35 @@
-package com.example.pokeapi.entities;
+package com.example.pokeapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 
 import java.util.List;
 
-@Document(collection = "Pokemon")
-public class Pokemon {
+public class PokemonDto {
 
-    @Id
-    private String id;
+
+    @JsonProperty("order")
     private String order;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("height")
     private int height;
+
+    @JsonProperty("weight")
     private int weight;
+    @JsonProperty("types")
     private List<Object> types;
+    @JsonProperty("abilities")
     private List<Object> abilities;
+    @JsonProperty("game_indices")
     private List<Object> game_indices;
 
 
-    public Pokemon() {
+    public PokemonDto() {
     }
 
-    public Pokemon(String order, String name, int height, int weight, List<Object> types, List<Object> abilities, List<Object> game_indices) {
+    public PokemonDto(String order, String name, int height, int weight, List<Object> types, List<Object> abilities, List<Object> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
@@ -32,14 +37,6 @@ public class Pokemon {
         this.types = types;
         this.abilities = abilities;
         this.game_indices = game_indices;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getOrder() {
@@ -98,6 +95,4 @@ public class Pokemon {
         this.game_indices = game_indices;
     }
 }
-
-
 

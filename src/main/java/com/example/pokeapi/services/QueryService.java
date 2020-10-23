@@ -24,6 +24,9 @@ public class QueryService {
     private QueryRepository queryRepository;
 
     @Autowired
+    private PokemonDtoService pokemonDtoService;
+
+    @Autowired
     private PokemonService pokemonService;
 
     public QueryService(RestTemplateBuilder restTemplateBuilder) {
@@ -35,6 +38,7 @@ public class QueryService {
     public List<Pokemon> findPokemon(String name){
         var currentQuery =  url + "pokemon/" + name;
         var queryExists = queryRepository.findByQueryString(currentQuery);
+        var newQuery = new Query();
 
         if(queryExists.isEmpty()){
             var pokemon = restTemplate.getForObject(currentQuery, Pokemon.class);
@@ -49,7 +53,7 @@ public class QueryService {
                 }
                 else{
                     System.out.println("name success");
-                    var newQuery = new Query(currentQuery, pokemonWithName);
+                    // var newQuery = new Query(currentQuery, pokemonWithName);
                     newQuery.setPokemons(pokemonWithName);
                     this.saveQueryToDb(newQuery);
                 }
