@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -15,13 +16,19 @@ public class PokemonService {
     @Autowired
     PokemonRepository pokemonRepository;
 
-    public List<Pokemon> getByName(String name){
-        var foundPokemon = pokemonRepository.findByName(name).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Couldn't find Pokemon with name: %s", name)));
-        return List.of(foundPokemon);
+    public Pokemon getByName(String name){
+        var foundPokemon = pokemonRepository.findByName(name);
+        System.out.println(name);
+        if(foundPokemon == null){
+            return null;
+        }
+        else{
+            return foundPokemon;
+        }
     }
 
     public void savePokemon(Pokemon pokemon){
-        var newPokemon = new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), pokemon.getTypes(), pokemon.getAbilities(), pokemon.getGame_indices());
+        var newPokemon = new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), pokemon.getType(), pokemon.getAbilities(), pokemon.getGame_indices());
         pokemonRepository.save(newPokemon);
     }
 }

@@ -1,10 +1,9 @@
 package com.example.pokeapi.services;
 
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
-import com.example.pokeapi.dto.ResultDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.ResultDto;
 import com.example.pokeapi.entities.PokemonNamesAndUrl;
 import com.example.pokeapi.repositories.PokemonNamesAndUrlRepository;
-import com.example.pokeapi.repositories.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -31,12 +30,12 @@ public class PokemonNamesAndUrlDtoService {
         var list = restTemplate.getForObject(urlAllPokemons, PokemonNameAndUrlDto.class);
 
         for(ResultDto res : list.getResults()){
-            this.addAllPokemonsAndUrlToDb(res);
+            this.addPokemonsAndUrlToDb(res);
         }
 
         return list;
     }
-    public void addAllPokemonsAndUrlToDb(ResultDto res){
+    public void addPokemonsAndUrlToDb(ResultDto res){
         var entry = new PokemonNamesAndUrl(res.getName(), res.getUrl());
         var pokemonExists = pokemonNamesAndUrlRepository.findByName(entry.getName());
         if(pokemonExists.isEmpty()){

@@ -1,7 +1,5 @@
 package com.example.pokeapi.services;
 
-import com.example.pokeapi.dto.PokemonNameAndUrlDto;
-import com.example.pokeapi.dto.ResultDto;
 import com.example.pokeapi.entities.Pokemon;
 import com.example.pokeapi.entities.PokemonNamesAndUrl;
 import com.example.pokeapi.repositories.PokemonNamesAndUrlRepository;
@@ -15,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @ConfigurationProperties(value = "pokemon.api", ignoreUnknownFields = false)
@@ -35,8 +34,13 @@ public class PokemonDtoService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
+    public List<PokemonNamesAndUrl> findAllPokemonContaining(String name){
+        var pokemons = pokemonNamesAndUrlRepository.findAll();
+        pokemons = pokemons.stream().filter(pokemon -> pokemon.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
+        return pokemons;
+    }
+
     public List<Pokemon> findAllPokemonWith(String name){
-        System.out.println("In method");
         var urlWithPokemon = url + "pokemon/" + name;
         System.out.println(urlWithPokemon);
         var pokemon = restTemplate.getForObject(urlWithPokemon, Pokemon.class);

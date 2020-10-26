@@ -1,5 +1,6 @@
 package com.example.pokeapi.dto;
 
+import com.example.pokeapi.dto.PokemonDetailDtos.TypesDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class PokemonDto {
     @JsonProperty("weight")
     private int weight;
     @JsonProperty("types")
-    private List<Object> types;
+    private List<TypesDto> types;
     @JsonProperty("abilities")
     private List<Object> abilities;
     @JsonProperty("game_indices")
@@ -29,7 +30,7 @@ public class PokemonDto {
     public PokemonDto() {
     }
 
-    public PokemonDto(String order, String name, int height, int weight, List<Object> types, List<Object> abilities, List<Object> game_indices) {
+    public PokemonDto(String order, String name, int height, int weight, List<TypesDto> types, List<Object> abilities, List<Object> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
@@ -71,11 +72,11 @@ public class PokemonDto {
         this.weight = weight;
     }
 
-    public List<Object> getTypes() {
+    public List<TypesDto> getTypes() {
         return types;
     }
 
-    public void setTypes(List<Object> types) {
+    public void setTypes(List<TypesDto> types) {
         this.types = types;
     }
 

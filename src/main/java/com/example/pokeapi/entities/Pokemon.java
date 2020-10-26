@@ -16,7 +16,7 @@ public class Pokemon {
     private String name;
     private int height;
     private int weight;
-    private List<Object> types;
+    private String type;
     private List<Object> abilities;
     private List<Object> game_indices;
 
@@ -24,12 +24,12 @@ public class Pokemon {
     public Pokemon() {
     }
 
-    public Pokemon(String order, String name, int height, int weight, List<Object> types, List<Object> abilities, List<Object> game_indices) {
+    public Pokemon(String order, String name, int height, int weight, String type, List<Object> abilities, List<Object> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
         this.weight = weight;
-        this.types = types;
+        this.type = type;
         this.abilities = abilities;
         this.game_indices = game_indices;
     }
@@ -74,12 +74,12 @@ public class Pokemon {
         this.weight = weight;
     }
 
-    public List<Object> getTypes() {
-        return types;
+    public String getType() {
+        return type;
     }
 
-    public void setTypes(List<Object> types) {
-        this.types = types;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public List<Object> getAbilities() {

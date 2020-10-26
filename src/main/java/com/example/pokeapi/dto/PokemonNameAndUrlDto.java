@@ -1,5 +1,6 @@
 package com.example.pokeapi.dto;
 
+import com.example.pokeapi.dto.PokemonDetailDtos.ResultDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

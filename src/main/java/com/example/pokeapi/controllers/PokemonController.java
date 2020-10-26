@@ -1,5 +1,6 @@
 package com.example.pokeapi.controllers;
 
+import com.example.pokeapi.dto.PokemonDetailDtos.TypeDto;
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
 import com.example.pokeapi.entities.Pokemon;
 import com.example.pokeapi.services.PokemonDtoService;
@@ -22,11 +23,9 @@ public class PokemonController {
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
 
     @GetMapping
-    public ResponseEntity<List<Pokemon>> findPokemonByName(@RequestParam String name) {
-        var getPokemon = queryService.findPokemonByName(name);
-
-        // var pokemons = pokemonService.findAllPokemonWith(name);
-
+    //Must be logged in
+    public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) Integer weight, @RequestParam(required = false) String type) {
+        var getPokemon = queryService.findPokemonByAttributes(name, weight, type);
         return ResponseEntity.ok(getPokemon);
     }
 
