@@ -35,7 +35,7 @@ public class QueryService {
 
 
 
-    public List<Pokemon> findPokemon(String name){
+    public List<Pokemon> findPokemonByName(String name){
         var currentQuery =  url + "pokemon/" + name;
         var queryExists = queryRepository.findByQueryString(currentQuery);
         var newQuery = new Query();
@@ -55,6 +55,7 @@ public class QueryService {
                     System.out.println("name success");
                     // var newQuery = new Query(currentQuery, pokemonWithName);
                     newQuery.setPokemons(pokemonWithName);
+                    newQuery.setQueryString(currentQuery);
                     this.saveQueryToDb(newQuery);
                 }
             }
@@ -65,13 +66,12 @@ public class QueryService {
             System.out.println("Get id and fetch pokemons");
            var id =  queryExists.get().getId();
            var chosenQuery = queryRepository.findById(id.toString());
-           /* var pokemons = chosenQuery.get().getPokemons();
-            for (Pokemon poke: chosenQuery.get().getPokemons()
-                 ) {
+            for(Pokemon poke : chosenQuery.get().getPokemons()){
                 System.out.println(poke.getName());
+            }
+            var pokemons = chosenQuery.get().getPokemons();
 
-            }*/
-            return null;
+            return pokemons;
         }
 
     }

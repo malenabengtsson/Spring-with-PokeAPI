@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1")
 public class PokemonController {
 
     @Autowired
@@ -21,19 +21,19 @@ public class PokemonController {
     @Autowired
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
 
-    @GetMapping("&name={name}")
-    public ResponseEntity<List<Pokemon>> findAllPokemons(@PathVariable String name){
-        System.out.println("In controller");
-        var getPokemon = queryService.findPokemon(name);
+    @GetMapping
+    public ResponseEntity<List<Pokemon>> findPokemonByName(@RequestParam String name) {
+        var getPokemon = queryService.findPokemonByName(name);
 
         // var pokemons = pokemonService.findAllPokemonWith(name);
 
-         return ResponseEntity.ok(getPokemon);
+        return ResponseEntity.ok(getPokemon);
     }
 
-    @GetMapping("pokemon")
-    public ResponseEntity<PokemonNameAndUrlDto> getAllPokemons(){
+    @GetMapping("/pokemon")
+    public ResponseEntity<PokemonNameAndUrlDto> getAllPokemons() {
         var answer = pokemonNamesAndUrlDtoService.getAllPokemons();
         return ResponseEntity.ok(answer);
+
     }
 }

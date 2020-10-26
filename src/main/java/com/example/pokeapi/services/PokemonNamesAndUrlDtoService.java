@@ -40,13 +40,8 @@ public class PokemonNamesAndUrlDtoService {
         var entry = new PokemonNamesAndUrl(res.getName(), res.getUrl());
         var pokemonExists = pokemonNamesAndUrlRepository.findByName(entry.getName());
         if(pokemonExists.isEmpty()){
-            System.out.println("Pokemon " + entry.getName() + " was added");
             pokemonNamesAndUrlRepository.save(entry);
         }
-        else{
-            System.out.println("Not adding duplicates");
-        }
-
     }
 
     public void setUrl(String url) {
