@@ -1,6 +1,8 @@
 package com.example.pokeapi.dto;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.TypesDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public class PokemonDto {
     @JsonProperty("types")
     private List<TypesDto> types;
     @JsonProperty("abilities")
-    private List<Object> abilities;
+    private List<AbilitiesDto> abilities;
     @JsonProperty("game_indices")
     private List<Object> game_indices;
 
@@ -30,7 +32,7 @@ public class PokemonDto {
     public PokemonDto() {
     }
 
-    public PokemonDto(String order, String name, int height, int weight, List<TypesDto> types, List<Object> abilities, List<Object> game_indices) {
+    public PokemonDto(String order, String name, int height, int weight, List<TypesDto> types, List<AbilitiesDto> abilities, List<Object> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
@@ -80,11 +82,11 @@ public class PokemonDto {
         this.types = types;
     }
 
-    public List<Object> getAbilities() {
+    public List<AbilitiesDto> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities(List<Object> abilities) {
+    public void setAbilities(List<AbilitiesDto> abilities) {
         this.abilities = abilities;
     }
 

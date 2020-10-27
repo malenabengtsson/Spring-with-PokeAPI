@@ -14,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -90,8 +89,9 @@ public class QueryService {
 
     public List<Pokemon> findPokemonByAttributes(String name, Integer weight, String type){
        var currentQuery = this.generateQuery(name, weight, type);
-       if(weight == null && type == null) {
-           findPokemonByName(name, currentQuery);
+      List<Pokemon> foundPokemons;
+       if(name != null){
+           foundPokemons = this.findPokemonByName(name, currentQuery);
        }
         var queryExists = queryRepository.findByQueryString(currentQuery);
         var newQuery = new Query();

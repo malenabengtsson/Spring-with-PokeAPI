@@ -1,13 +1,13 @@
-package com.example.pokeapi.dto.PokemonDetailDtos;
+package com.example.pokeapi.dto.PokemonDetailDtos.Abilities;
 
-public class TypeDto {
+public class AbilityDto {
     private String name;
     private String url;
 
-    public TypeDto() {
+    public AbilityDto() {
     }
 
-    public TypeDto(String name, String url) {
+    public AbilityDto(String name, String url) {
         this.name = name;
         this.url = url;
     }

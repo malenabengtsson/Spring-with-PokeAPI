@@ -1,7 +1,9 @@
 package com.example.pokeapi.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -12,20 +14,22 @@ public class Pokemon {
 
     @Id
     private String id;
-    private String order;
+    private String indexNumber;
     private String name;
     private int height;
     private int weight;
-    private String type;
-    private List<Object> abilities;
+
+    @DBRef
+    private Type type;
+    private List<Ability> abilities;
     private List<Object> game_indices;
 
 
     public Pokemon() {
     }
 
-    public Pokemon(String order, String name, int height, int weight, String type, List<Object> abilities, List<Object> game_indices) {
-        this.order = order;
+    public Pokemon(String indexNumber, String name, int height, int weight, Type type, List<Ability> abilities, List<Object> game_indices) {
+        this.indexNumber = indexNumber;
         this.name = name;
         this.height = height;
         this.weight = weight;
@@ -42,12 +46,12 @@ public class Pokemon {
         this.id = id;
     }
 
-    public String getOrder() {
-        return order;
+    public String getIndexNumber() {
+        return indexNumber;
     }
 
-    public void setOrder(String order) {
-        this.order = order;
+    public void setIndexNumber(String indexNumber) {
+        this.indexNumber = indexNumber;
     }
 
     public String getName() {
@@ -74,19 +78,20 @@ public class Pokemon {
         this.weight = weight;
     }
 
-    public String getType() {
+
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public List<Object> getAbilities() {
+    public List<Ability> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities(List<Object> abilities) {
+    public void setAbilities(List<Ability> abilities) {
         this.abilities = abilities;
     }
 

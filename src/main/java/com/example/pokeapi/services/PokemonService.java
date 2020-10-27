@@ -28,7 +28,8 @@ public class PokemonService {
     }
 
     public void savePokemon(Pokemon pokemon){
-        var newPokemon = new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), pokemon.getType(), pokemon.getAbilities(), pokemon.getGame_indices());
+        System.out.println("Type" + pokemon.getType());
+        var newPokemon = new Pokemon(pokemon.getIndexNumber(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), pokemon.getType(), pokemon.getAbilities(), pokemon.getGame_indices());
         pokemonRepository.save(newPokemon);
     }
 }
