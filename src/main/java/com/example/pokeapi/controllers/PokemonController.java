@@ -15,8 +15,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class PokemonController {
 
-    @Autowired
-    private QueryService queryService;
+   @Autowired
+   private QueryService queryService;
 
     @Autowired
     private PokemonDtoService pokemonDtoService;
@@ -25,7 +25,6 @@ public class PokemonController {
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
 
     @GetMapping
-    //Must be logged in
     public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) Integer weight, @RequestParam(required = false) String type) {
         var getPokemon = queryService.findPokemonByAttributes(name, weight, type);
         return ResponseEntity.ok(getPokemon);

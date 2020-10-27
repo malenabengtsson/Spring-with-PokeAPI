@@ -26,13 +26,13 @@ public class PokemonDto {
     @JsonProperty("abilities")
     private List<AbilitiesDto> abilities;
     @JsonProperty("game_indices")
-    private List<Object> game_indices;
+    private List<GameIndicesDto> game_indices;
 
 
     public PokemonDto() {
     }
 
-    public PokemonDto(String order, String name, int height, int weight, List<TypesDto> types, List<AbilitiesDto> abilities, List<Object> game_indices) {
+    public PokemonDto(String order, String name, int height, int weight, List<TypesDto> types, List<AbilitiesDto> abilities, List<GameIndicesDto> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
@@ -90,11 +90,11 @@ public class PokemonDto {
         this.abilities = abilities;
     }
 
-    public List<Object> getGame_indices() {
+    public List<GameIndicesDto> getGame_indices() {
         return game_indices;
     }
 
-    public void setGame_indices(List<Object> game_indices) {
+    public void setGame_indices(List<GameIndicesDto> game_indices) {
         this.game_indices = game_indices;
     }
 }

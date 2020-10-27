@@ -1,7 +1,5 @@
 package com.example.pokeapi.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,13 +20,13 @@ public class Pokemon {
     @DBRef
     private Type type;
     private List<Ability> abilities;
-    private List<Object> game_indices;
+    private List<GameIndice> game_indices;
 
 
     public Pokemon() {
     }
 
-    public Pokemon(String indexNumber, String name, int height, int weight, Type type, List<Ability> abilities, List<Object> game_indices) {
+    public Pokemon(String indexNumber, String name, int height, int weight, Type type, List<Ability> abilities, List<GameIndice> game_indices) {
         this.indexNumber = indexNumber;
         this.name = name;
         this.height = height;
@@ -95,11 +93,11 @@ public class Pokemon {
         this.abilities = abilities;
     }
 
-    public List<Object> getGame_indices() {
+    public List<GameIndice> getGame_indices() {
         return game_indices;
     }
 
-    public void setGame_indices(List<Object> game_indices) {
+    public void setGame_indices(List<GameIndice> game_indices) {
         this.game_indices = game_indices;
     }
 }

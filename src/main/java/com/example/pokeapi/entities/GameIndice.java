@@ -1,19 +1,20 @@
 package com.example.pokeapi.entities;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Repository
-public class GameIndices {
+@Document(collection = "GameIndices")
+public class GameIndice {
+
     @Id
     private String id;
     private String gameVersion;
     private String gameUrl;
 
-    public GameIndices() {
+    public GameIndice() {
     }
 
-    public GameIndices(String gameVersion, String gameUrl) {
+    public GameIndice(String gameVersion, String gameUrl) {
         this.gameVersion = gameVersion;
         this.gameUrl = gameUrl;
     }

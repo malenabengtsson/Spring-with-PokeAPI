@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-
 public class AbilityService {
 
      @Autowired
@@ -29,11 +28,9 @@ public class AbilityService {
             var abilityName = abilities.getAbility().getName().replace("-", " ");
             var abilityExist = abilityRepository.findByName(abilityName);
             if(abilityExist == null){
-                System.out.println(abilityName);
                 var newAbility = new Ability(abilityName, abilities.getAbility().getUrl());
                 this.saveAbility(newAbility);
                 var fetchedAbility = abilityRepository.findByName(abilityName);
-                System.out.println(fetchedAbility.getId());
                 chosenAbility.add(fetchedAbility);
         }
             else{

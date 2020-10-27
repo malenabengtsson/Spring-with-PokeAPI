@@ -1,10 +1,8 @@
 package com.example.pokeapi.services;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.example.pokeapi.dto.PokemonDto;
 import com.example.pokeapi.entities.Pokemon;
 import com.example.pokeapi.entities.PokemonNamesAndUrl;
-import com.example.pokeapi.entities.Type;
 import com.example.pokeapi.repositories.PokemonNamesAndUrlRepository;
 import com.example.pokeapi.repositories.PokemonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,9 @@ public class PokemonDtoService {
     @Autowired
     private AbilityService abilityService;
 
+    @Autowired
+    private GameIndiceService gameIndiceService;
+
     public PokemonDtoService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
@@ -55,9 +56,10 @@ public class PokemonDtoService {
         var pokemon = restTemplate.getForObject(urlWithPokemon, PokemonDto.class);
         var type = typeService.getType(pokemon);
         var ability = abilityService.getAbility(pokemon);
+        var gameList = gameIndiceService.getGame(pokemon);
 
 
-        return new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), type, ability , pokemon.getGame_indices());
+        return new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), type, ability , gameList);
     }
 
     public void setUrl(String url) {

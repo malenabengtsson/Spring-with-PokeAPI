@@ -23,7 +23,6 @@ public class QueryService {
 
     private final RestTemplate restTemplate;
     private String url;
-    private List<Pokemon> foundPokemons;
 
 
     @Autowired
