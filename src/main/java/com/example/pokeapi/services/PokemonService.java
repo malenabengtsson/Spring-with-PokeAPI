@@ -27,18 +27,17 @@ public class PokemonService {
     private QueryService queryService;
 
     @Autowired
-    private QueryRepository queryRepository;
+    private PokemonDtoService pokemonDtoService;
 
     @Autowired
-    private PokemonDtoService pokemonDtoService;
+    private TypeService typeService;
 
     public List<Pokemon> findPokemon(String combination, String currentQuery, String name, Integer maxWeight, String type, String ability) {
         if(combination.equals("Name")){
             return this.findPokemonByName(name);
         }
         if(combination.equals("Type")){
-            return null;
-                    //this.findPokemonByType(type);
+            return this.findPokemonByType(type);
         }
         if (combination.equals("NameWeightTypeAbility")) {
             return this.findPokemonByNameWeightTypeAndAbility(name, maxWeight, type, ability);
@@ -108,14 +107,14 @@ public class PokemonService {
 
         return foundPokemons;
     }
-  /*  public List<Pokemon> findPokemonByType(String type){
+    public List<Pokemon> findPokemonByType(String type){
+        return typeService.getPokemonsWithType(type);
 
-    }*/
+    }
 
 
     public Pokemon getByName(String name) {
         var foundPokemon = pokemonRepository.findByName(name);
-        System.out.println(name);
         if (foundPokemon == null) {
             return null;
         } else {
@@ -146,7 +145,7 @@ public class PokemonService {
 
 
     public void savePokemon(Pokemon pokemon) {
-        System.out.println("Type" + pokemon.getType());
+        System.out.println("in save");
         var newPokemon = new Pokemon(pokemon.getIndexNumber(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), pokemon.getType(), pokemon.getAbilities(), pokemon.getGame_indices());
         pokemonRepository.save(newPokemon);
     }
