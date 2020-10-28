@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,126 +37,129 @@ public class QueryService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public List<Pokemon> findPokemonByName(String name, String currentQuery){
-        var queryExist = queryRepository.findByQueryString(currentQuery);
-        var newQuery = new Query();
-        List<Pokemon> foundPokemons = new ArrayList<>();
+    public List<Pokemon> findPokemonByAttributes(String name, Integer maxWeight, String type, String ability){
+       var combination = this.generateCombinations(name, maxWeight, type, ability);
+       var currentQuery = this.generateQuery(combination, name, maxWeight, type, ability);
+        System.out.println("Combination: " + combination);
+        System.out.println("Query: " + currentQuery);
 
-        if(queryExist.isEmpty()){
-            var getPokemonNamesContainingName = pokemonDtoService.findAllPokemonContaining(name);
-            if(getPokemonNamesContainingName.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemons found containing " + name);
-            }
-            else{
-                for(PokemonNamesAndUrl pokemon : getPokemonNamesContainingName){
-                    System.out.println(pokemon.getName());
-                    var pokemonExistInDb = pokemonService.getByName(pokemon.getName());
-                    if(pokemonExistInDb == null){
-                        currentQuery = url + "pokemon/" + pokemon.getName();
-                        var fetchedPokemon = restTemplate.getForObject(currentQuery, Pokemon.class);
-                        System.out.println("Fetched" + fetchedPokemon.getName());
-                        pokemonService.savePokemon(fetchedPokemon);
-                        var savedPokemon = pokemonService.getByName(pokemon.getName());
-                        if(savedPokemon != null){
-                            System.out.println(savedPokemon.getName() + savedPokemon.getId());
-                            foundPokemons.add(savedPokemon);
-
-                        }
-                        else{
-                            System.out.println(pokemon.getName() + " can not be found in db");
-                        }
-                    }
-                    else{
-                        foundPokemons.add(pokemonExistInDb);
-                        }
-                    }
-                newQuery.setPokemons(foundPokemons);
-                newQuery.setQueryString(currentQuery);
-                this.saveQueryToDb(newQuery);
-                foundPokemons.clear();
-                }
-            return foundPokemons;
-
-            }
-        else{
-            return queryExist.get().getPokemons();
-        }
-        }
-
-
-
-    public List<Pokemon> findPokemonByAttributes(String name, Integer weight, String type){
-       var currentQuery = this.generateQuery(name, weight, type);
-      List<Pokemon> foundPokemons;
-       if(name != null){
-           foundPokemons = this.findPokemonByName(name, currentQuery);
-       }
         var queryExists = queryRepository.findByQueryString(currentQuery);
-        var newQuery = new Query();
 
         if(queryExists.isEmpty()){
-            /*
-            var pokemon = restTemplate.getForObject(currentQuery, Pokemon.class);
-            for(Pokemon poke: List.of(pokemon)){
-                pokemonService.savePokemon(poke);
-            }
+               var matchedPokemons = pokemonService.findPokemon(combination, currentQuery, name, maxWeight, type, ability);
+               var newQuery = new Query(currentQuery, matchedPokemons);
+               this.saveQueryToDb(newQuery);
+               return matchedPokemons;
 
-            for(Pokemon poke : List.of(pokemon)){
-                var pokemonWithName = pokemonService.getByName(poke.getName());
-                if(pokemonWithName.isEmpty()){
-                    System.out.println("Empty");
-                }
-                else{
-                    System.out.println("name success");
-                    // var newQuery = new Query(currentQuery, pokemonWithName);
-                    newQuery.setPokemons(pokemonWithName);
-                    newQuery.setQueryString(currentQuery);
-                    this.saveQueryToDb(newQuery);
-                }
-            }
-
-            return List.of(pokemon);*/
-        return null;
         }
         else{
-            System.out.println("Get id and fetch pokemons");
-           var id =  queryExists.get().getId();
-           var chosenQuery = queryRepository.findById(id.toString());
-            for(Pokemon poke : chosenQuery.get().getPokemons()){
-                System.out.println(poke.getName());
-            }
-            var pokemons = chosenQuery.get().getPokemons();
-
-            return pokemons;
+            return queryExists.get().getPokemons();
         }
 
     }
 
-    public String generateQuery(String name, Integer weight, String type){
-        if(name == null && weight != null && type != null){
-            return url + "weight=" + weight + "type=" + type;
+    public String generateCombinations(String name, Integer maxWeight, String type, String ability){
+        if(name == null && maxWeight != null && type != null && ability == null){
+            return "WeightType";
         }
-        else if (name != null && weight != null && type != null ){
-            return url + "name=" + name + "weight=" + weight + "type=" + type;
+        else if (name != null && maxWeight != null && type != null && ability == null ){
+            return "NameWeightType";
+
         }
-        else if (name != null && weight != null && type == null){
-            return url + "name=" + name + "weight=" + weight;
+        else if (name != null && maxWeight != null && type == null && ability == null){
+            return "NameWeight";
+
         }
-        else if(name != null && weight == null && type != null){
-            return url + "name=" + name + "type=" + type;
+        else if(name != null && maxWeight == null && type != null && ability == null){
+            return "NameType";
+
         }
-        else if(name == null && weight == null && type != null){
-            return url + "type/" + type;
+        else if(name != null && maxWeight != null && type != null && ability != null ){
+            return "NameWeightTypeAbility";
+
         }
-        else if(name != null & weight == null && type == null){
-            return url + "pokemon/" + name;
+        else if(name == null && maxWeight != null && type != null && ability != null ){
+            return "WeightTypeAbility";
+
+        }
+        else if(name == null && maxWeight != null && type == null && ability == null ){
+            return "WeightAbility";
+
+        }
+        else if(name != null && maxWeight == null && type != null && ability != null){
+            return "NameTypeAbility";
+
+        }
+        else if(name != null && maxWeight != null && type == null && ability != null){
+            return "NameWeightAbility";
+        }
+        else if(name == null && maxWeight == null && type != null && ability != null){
+            return "TypeAbility";
+        }
+        else if(name == null && maxWeight == null && type == null && ability != null){
+            return "Ability";
+        }
+        else if(name == null && maxWeight == null && type != null){
+            return "Type";
+        }
+        else if(name != null & maxWeight == null && type == null){
+            return "Name";
+        }
+        else if(name == null & maxWeight != null && type == null){
+            return "Weight";
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Search parameters doesnt match");
     }
-    public List<Pokemon> findPokemonByNameAndWeight(String name, int weight) {
-        return null;
-    }
+    public String generateQuery(String combination, String name, Integer maxWeight, String type, String ability){
+        String abiltyString = "";
+        if(ability != null){
+            abiltyString = ability.replace(" ", "-");
+        }
 
+        if(combination.equals("WeightType")){
+            return url + "maxWeight=" + maxWeight + "type=" + type;
+        }
+        else if (combination.equals("NameWeightType")){
+            return url + "name=" + name + "maxWeight=" + maxWeight + "type=" + type;
+        }
+        else if (combination.equals("NameWeight")){
+            return url + "name=" + name + "maxWeight=" + maxWeight;
+        }
+        else if(combination.equals("NameType")){
+            return url + "name=" + name + "type=" + type;
+        }
+        else if(combination.equals("NameWeightTypeAbility")){
+            return url + "name=" + name + "maxWeight=" + maxWeight + "type=" + type + "ability=" + abiltyString;
+        }
+        else if(combination.equals("WeightTypeAbility")){
+            return  url + "maxWeight=" + maxWeight + "type=" + type + "ability=" + abiltyString;
+        }
+        else if(combination.equals("WeightAbility")){
+            return url +  "maxWeight=" + maxWeight + "ability=" + abiltyString;
+        }
+        else if(combination.equals("NameTypeAbility")){
+            return url + "name=" + name + "type=" + type + "ability=" + abiltyString;
+        }
+        else if(combination.equals("NameWeightAbility")){
+            return url + "name=" +  name + "maxWeight=" + maxWeight +  "ability=" + abiltyString;
+        }
+        else if(combination.equals("TypeAbility")){
+            return url + "type="+ type + "ability=" + abiltyString;
+        }
+        else if(combination.equals("Ability")){
+            return url + "ability=" + abiltyString;
+        }
+        else if(combination.equals("Type")){
+            return url + "type=" + type;
+        }
+        else if(combination.equals("Name")){
+            return url + "name=" + name;
+        }
+        else if(combination.equals("Weight")){
+            return url + "maxWeight=" + maxWeight;
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Search parameters doesnt match");
+    }
     public void saveQueryToDb(Query query){
         queryRepository.save(query);
         // ok

@@ -18,15 +18,17 @@ public class Pokemon {
     private int weight;
 
     @DBRef
-    private Type type;
+    private List<Type> type;
+    @DBRef
     private List<Ability> abilities;
+    @DBRef
     private List<GameIndice> game_indices;
 
 
     public Pokemon() {
     }
 
-    public Pokemon(String indexNumber, String name, int height, int weight, Type type, List<Ability> abilities, List<GameIndice> game_indices) {
+    public Pokemon(String indexNumber, String name, int height, int weight, List<Type> type, List<Ability> abilities, List<GameIndice> game_indices) {
         this.indexNumber = indexNumber;
         this.name = name;
         this.height = height;
@@ -77,11 +79,11 @@ public class Pokemon {
     }
 
 
-    public Type getType() {
+    public List<Type> getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(List<Type> type) {
         this.type = type;
     }
 

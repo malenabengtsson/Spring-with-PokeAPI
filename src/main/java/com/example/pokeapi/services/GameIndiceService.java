@@ -20,7 +20,6 @@ public class GameIndiceService {
         List<GameIndice> gameList = new ArrayList<>();
         for(GameIndicesDto games : pokemon.getGame_indices()){
             var nameOfGame = games.getVersion().getName().replace("-", " ");
-            System.out.println(nameOfGame);
            var gameExists = gameIndiceRepository.findByGameVersion(nameOfGame);
            if(gameExists == null){
                var newGame = new GameIndice(nameOfGame, games.getVersion().getUrl());

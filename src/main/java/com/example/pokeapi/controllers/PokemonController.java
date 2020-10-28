@@ -25,8 +25,8 @@ public class PokemonController {
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
 
     @GetMapping
-    public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) Integer weight, @RequestParam(required = false) String type) {
-        var getPokemon = queryService.findPokemonByAttributes(name, weight, type);
+    public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) Integer maxWeight, @RequestParam(required = false) String type, @RequestParam(required = false) String ability) {
+        var getPokemon = queryService.findPokemonByAttributes(name, maxWeight, type, ability);
         return ResponseEntity.ok(getPokemon);
     }
 

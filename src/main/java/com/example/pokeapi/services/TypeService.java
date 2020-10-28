@@ -19,7 +19,7 @@ public class TypeService {
         for(TypesDto type : pokemon.getTypes()){
             var answer = typeRepository.findByName(type.getType().getName());
             if(answer == null){
-                var newType = new Type(type.getType().getName(), type.getType().getUrl());
+               // var newType = new Type(type.getType().getName(), type.getType().getUrl());
                 this.saveType(newType);
                 var fetchedType = typeRepository.findByName(type.getType().getName());
                 return fetchedType;

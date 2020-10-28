@@ -51,7 +51,6 @@ public class PokemonDtoService {
     }
 
     public Pokemon findAllPokemonWith(String name) {
-        System.out.println("in find all pookemons");
         var urlWithPokemon = url + "pokemon/" + name;
         var pokemon = restTemplate.getForObject(urlWithPokemon, PokemonDto.class);
         var type = typeService.getType(pokemon);
