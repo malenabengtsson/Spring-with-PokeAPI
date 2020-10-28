@@ -1,10 +1,7 @@
 package com.example.pokeapi.services;
 
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
-import com.example.pokeapi.entities.Ability;
-import com.example.pokeapi.entities.Pokemon;
-import com.example.pokeapi.entities.PokemonNamesAndUrl;
-import com.example.pokeapi.entities.Query;
+import com.example.pokeapi.entities.*;
 import com.example.pokeapi.repositories.PokemonRepository;
 import com.example.pokeapi.repositories.QueryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +37,13 @@ public class PokemonService {
             return this.findPokemonByName(name);
         }
         if(combination.equals("Type")){
-            return this.findPokemonByType(type);
+            return null;
+                    //this.findPokemonByType(type);
         }
         if (combination.equals("NameWeightTypeAbility")) {
             return this.findPokemonByNameWeightTypeAndAbility(name, maxWeight, type, ability);
         }
+        return null;
 
     }
 
@@ -54,18 +53,19 @@ public class PokemonService {
         List<Pokemon> pokemonToBeAdded = new ArrayList<>();
         var getPokemonNames = this.getPokemonNames(name);
         for (Pokemon pokemon : getPokemonNames) {
-            if (maxWeight.intValue() <= pokemon.getWeight() && pokemon.getType().getName().equals(type)) {
-                if (ability != null) {
+            if (maxWeight.intValue() <= pokemon.getWeight()) {
                     for (Ability abilityName : pokemon.getAbilities()) {
-                        System.out.println("From pokemon: " + abilityName.getName());
-                        System.out.println("From input: " + ability);
-                        if (abilityName.getName().equals(ability)) {
-                            pokemonToBeAdded.add(pokemon);
+                        System.out.println(abilityName.getName());
+                        for(Type typeName : pokemon.getType()){
+                            System.out.println(typeName.getName());
+                            if (abilityName.getName().equals(ability)) {
+                                if(typeName.getName().equals(type)){
+                                    pokemonToBeAdded.add(pokemon);
+                                }
+                            }
                         }
+
                     }
-                } else {
-                    pokemonToBeAdded.add(pokemon);
-                }
 
             }
         }
@@ -81,7 +81,6 @@ public class PokemonService {
                     System.out.println(savedPokemon.getName());
                     matchedPokemon.add(savedPokemon);
                 }
-
             }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
@@ -109,9 +108,9 @@ public class PokemonService {
 
         return foundPokemons;
     }
-    public List<Pokemon> findPokemonByType(String type){
+  /*  public List<Pokemon> findPokemonByType(String type){
 
-    }
+    }*/
 
 
     public Pokemon getByName(String name) {

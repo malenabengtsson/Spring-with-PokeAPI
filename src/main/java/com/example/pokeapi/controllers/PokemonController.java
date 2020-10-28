@@ -1,10 +1,12 @@
 package com.example.pokeapi.controllers;
 
+import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
 import com.example.pokeapi.entities.Pokemon;
 import com.example.pokeapi.services.PokemonDtoService;
 import com.example.pokeapi.services.PokemonNamesAndUrlDtoService;
 import com.example.pokeapi.services.QueryService;
+import com.example.pokeapi.services.TypeDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +25,9 @@ public class PokemonController {
 
     @Autowired
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
+
+    @Autowired
+    private TypeDtoService typeDtoService;
 
     @GetMapping
     public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) Integer maxWeight, @RequestParam(required = false) String type, @RequestParam(required = false) String ability) {
@@ -43,4 +48,5 @@ public class PokemonController {
         return ResponseEntity.ok(answer);
 
     }
+
 }

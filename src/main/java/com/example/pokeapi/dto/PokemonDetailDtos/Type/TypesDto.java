@@ -1,36 +1,36 @@
 package com.example.pokeapi.dto.PokemonDetailDtos.Type;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypeDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class TypesDto {
-    @JsonProperty("slot")
-    private int slot;
-    @JsonProperty("type")
-    private TypeDto type;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("pokemon")
+    List<TypeDto> pokemon;
 
     public TypesDto() {
-
     }
 
-    public TypesDto(int slot, TypeDto type) {
-        this.slot = slot;
-        this.type = type;
+    public TypesDto(String name, List<TypeDto> pokemon) {
+        this.name = name;
+        this.pokemon = pokemon;
     }
 
-    public int getSlot() {
-        return slot;
+    public String getName() {
+        return name;
     }
 
-    public void setSlot(int slot) {
-        this.slot = slot;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public TypeDto getType() {
-        return type;
+    public List<TypeDto> getPokemon() {
+        return pokemon;
     }
 
-    public void setType(TypeDto type) {
-        this.type = type;
+    public void setPokemon(List<TypeDto> pokemon) {
+        this.pokemon = pokemon;
     }
 }

@@ -2,33 +2,25 @@ package com.example.pokeapi.dto.PokemonDetailDtos.Type;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class TypeDto {
-    @JsonProperty("name")
-    private String name;
-    @JsonProperty("url")
-    private String url;
+
+    private LinkedPokemonDto pokemon;
+
 
     public TypeDto() {
     }
 
-    public TypeDto(String name, String url) {
-        this.name = name;
-        this.url = url;
+    public TypeDto(LinkedPokemonDto pokemon) {
+        this.pokemon = pokemon;
     }
 
-    public String getName() {
-        return name;
+    public LinkedPokemonDto getPokemon() {
+        return pokemon;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPokemon(LinkedPokemonDto pokemon) {
+        this.pokemon = pokemon;
     }
 }

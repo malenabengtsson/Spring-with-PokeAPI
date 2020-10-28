@@ -2,6 +2,7 @@ package com.example.pokeapi.dto;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypePlaceholderDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,8 +22,9 @@ public class PokemonDto {
 
     @JsonProperty("weight")
     private int weight;
+
     @JsonProperty("types")
-    private List<TypesDto> types;
+    private List<TypePlaceholderDto> types;
     @JsonProperty("abilities")
     private List<AbilitiesDto> abilities;
     @JsonProperty("game_indices")
@@ -32,7 +34,7 @@ public class PokemonDto {
     public PokemonDto() {
     }
 
-    public PokemonDto(String order, String name, int height, int weight, List<TypesDto> types, List<AbilitiesDto> abilities, List<GameIndicesDto> game_indices) {
+    public PokemonDto(String order, String name, int height, int weight, List<TypePlaceholderDto> types, List<AbilitiesDto> abilities, List<GameIndicesDto> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
@@ -74,11 +76,11 @@ public class PokemonDto {
         this.weight = weight;
     }
 
-    public List<TypesDto> getTypes() {
+    public List<TypePlaceholderDto> getTypes() {
         return types;
     }
 
-    public void setTypes(List<TypesDto> types) {
+    public void setTypes(List<TypePlaceholderDto> types) {
         this.types = types;
     }
 

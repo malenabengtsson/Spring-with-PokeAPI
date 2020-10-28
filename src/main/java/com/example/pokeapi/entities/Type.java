@@ -11,16 +11,15 @@ public class Type {
     @Id
     private String id;
     private String name;
-    private String url;
-    private List<Pokemon> pokemons;
+    private List<String> linkedPokemons;
 
     public Type() {
     }
 
-    public Type(String name, String url, List<Pokemon> pokemons) {
+    public Type(String name, List<String> linkedPokemons) {
         this.name = name;
-        this.url = url;
-        this.pokemons = pokemons;
+
+        this.linkedPokemons = linkedPokemons;
     }
 
     public String getId() {
@@ -39,19 +38,11 @@ public class Type {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public List<String> getLinkedPokemons() {
+        return linkedPokemons;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public List<Pokemon> getPokemons() {
-        return pokemons;
-    }
-
-    public void setPokemons(List<Pokemon> pokemons) {
-        this.pokemons = pokemons;
+    public void setLinkedPokemons(List<String> linkedPokemons) {
+        this.linkedPokemons = linkedPokemons;
     }
 }
