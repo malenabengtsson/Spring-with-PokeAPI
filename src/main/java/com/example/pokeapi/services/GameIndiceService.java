@@ -1,6 +1,6 @@
 package com.example.pokeapi.services;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesPlaceholderDto;
 import com.example.pokeapi.dto.PokemonDto;
 import com.example.pokeapi.entities.GameIndice;
 import com.example.pokeapi.repositories.GameIndiceRepository;
@@ -18,7 +18,7 @@ public class GameIndiceService {
 
     public List<GameIndice> getGame(PokemonDto pokemon){
         List<GameIndice> gameList = new ArrayList<>();
-        for(GameIndicesDto games : pokemon.getGame_indices()){
+        for(GameIndicesPlaceholderDto games : pokemon.getGame_indices()){
             var nameOfGame = games.getVersion().getName().replace("-", " ");
            var gameExists = gameIndiceRepository.findByGameVersion(nameOfGame);
            if(gameExists == null){

@@ -1,14 +1,14 @@
 package com.example.pokeapi.dto.PokemonDetailDtos.GameIndices;
 
-public class GameIndiceDto {
+public class GameIndicePlaceholderDto {
 
     private String name;
     private String url;
 
-    public GameIndiceDto() {
+    public GameIndicePlaceholderDto() {
     }
 
-    public GameIndiceDto(String name, String url) {
+    public GameIndicePlaceholderDto(String name, String url) {
         this.name = name;
         this.url = url;
     }

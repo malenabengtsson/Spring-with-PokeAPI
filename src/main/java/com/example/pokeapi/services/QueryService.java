@@ -46,7 +46,7 @@ public class QueryService {
         var queryExists = queryRepository.findByQueryString(currentQuery);
 
         if(queryExists.isEmpty()){
-               var matchedPokemons = pokemonService.findPokemon(combination, currentQuery, name, maxWeight, type, ability);
+               var matchedPokemons = pokemonService.findPokemon(combination, name, maxWeight, type, ability);
                var newQuery = new Query(currentQuery, matchedPokemons);
                this.saveQueryToDb(newQuery);
                return matchedPokemons;

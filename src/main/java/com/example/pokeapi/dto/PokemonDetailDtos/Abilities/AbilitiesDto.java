@@ -1,23 +1,37 @@
 package com.example.pokeapi.dto.PokemonDetailDtos.Abilities;
 
+import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypeDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class AbilitiesDto {
-
-    private AbilityDto ability;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("pokemon")
+    List<AbilityDto> pokemon;
 
     public AbilitiesDto() {
     }
 
-    public AbilitiesDto(AbilityDto ability) {
-        this.ability = ability;
+    public AbilitiesDto(String name, List<AbilityDto> pokemon) {
+        this.name = name;
+        this.pokemon = pokemon;
     }
 
-    public AbilityDto getAbility() {
-        return ability;
+    public String getName() {
+        return name;
     }
 
-    public void setAbility(AbilityDto ability) {
-        this.ability = ability;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<AbilityDto> getPokemon() {
+        return pokemon;
+    }
+
+    public void setPokemon(List<AbilityDto> pokemon) {
+        this.pokemon = pokemon;
     }
 }

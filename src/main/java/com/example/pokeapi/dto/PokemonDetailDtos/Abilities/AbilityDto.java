@@ -1,30 +1,23 @@
 package com.example.pokeapi.dto.PokemonDetailDtos.Abilities;
 
+import com.example.pokeapi.dto.PokemonDetailDtos.Type.LinkedPokemonDto;
+
 public class AbilityDto {
-    private String name;
-    private String url;
+
+    private LinkedPokemonDto pokemon;
 
     public AbilityDto() {
     }
 
-    public AbilityDto(String name, String url) {
-        this.name = name;
-        this.url = url;
+    public AbilityDto(LinkedPokemonDto pokemon) {
+        this.pokemon = pokemon;
     }
 
-    public String getName() {
-        return name;
+    public LinkedPokemonDto getPokemon() {
+        return pokemon;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPokemon(LinkedPokemonDto pokemon) {
+        this.pokemon = pokemon;
     }
 }

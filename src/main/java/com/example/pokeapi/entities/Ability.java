@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Document(collection = "Ability")
 public class Ability {
@@ -11,14 +13,14 @@ public class Ability {
     @Id
     private String id;
     private String name;
-    private String url;
+    private List<String> linkedPokemons;
 
     public Ability() {
     }
 
-    public Ability(String name, String url) {
+    public Ability(String name,  List<String> linkedPokemons) {
         this.name = name;
-        this.url = url;
+        this.linkedPokemons = linkedPokemons;
     }
 
     public String getId() {
@@ -37,11 +39,12 @@ public class Ability {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+
+    public List<String> getLinkedPokemons() {
+        return linkedPokemons;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLinkedPokemons(List<String> linkedPokemons) {
+        this.linkedPokemons = linkedPokemons;
     }
 }

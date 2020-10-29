@@ -1,9 +1,8 @@
 package com.example.pokeapi.dto;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesDto;
-import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesPlaceholderDto;
+import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesPlaceholderDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypePlaceholderDto;
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -26,15 +25,15 @@ public class PokemonDto {
     @JsonProperty("types")
     private List<TypePlaceholderDto> types;
     @JsonProperty("abilities")
-    private List<AbilitiesDto> abilities;
+    private List<AbilitiesPlaceholderDto> abilities;
     @JsonProperty("game_indices")
-    private List<GameIndicesDto> game_indices;
+    private List<GameIndicesPlaceholderDto> game_indices;
 
 
     public PokemonDto() {
     }
 
-    public PokemonDto(String order, String name, int height, int weight, List<TypePlaceholderDto> types, List<AbilitiesDto> abilities, List<GameIndicesDto> game_indices) {
+    public PokemonDto(String order, String name, int height, int weight, List<TypePlaceholderDto> types, List<AbilitiesPlaceholderDto> abilities, List<GameIndicesPlaceholderDto> game_indices) {
         this.order = order;
         this.name = name;
         this.height = height;
@@ -84,19 +83,19 @@ public class PokemonDto {
         this.types = types;
     }
 
-    public List<AbilitiesDto> getAbilities() {
+    public List<AbilitiesPlaceholderDto> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities(List<AbilitiesDto> abilities) {
+    public void setAbilities(List<AbilitiesPlaceholderDto> abilities) {
         this.abilities = abilities;
     }
 
-    public List<GameIndicesDto> getGame_indices() {
+    public List<GameIndicesPlaceholderDto> getGame_indices() {
         return game_indices;
     }
 
-    public void setGame_indices(List<GameIndicesDto> game_indices) {
+    public void setGame_indices(List<GameIndicesPlaceholderDto> game_indices) {
         this.game_indices = game_indices;
     }
 }

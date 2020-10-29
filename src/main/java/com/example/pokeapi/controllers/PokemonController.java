@@ -2,11 +2,9 @@ package com.example.pokeapi.controllers;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
+import com.example.pokeapi.entities.GameIndice;
 import com.example.pokeapi.entities.Pokemon;
-import com.example.pokeapi.services.PokemonDtoService;
-import com.example.pokeapi.services.PokemonNamesAndUrlDtoService;
-import com.example.pokeapi.services.QueryService;
-import com.example.pokeapi.services.TypeDtoService;
+import com.example.pokeapi.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +27,9 @@ public class PokemonController {
     @Autowired
     private TypeDtoService typeDtoService;
 
+    @Autowired
+    private GameDtoService gameDtoService;
+
     @GetMapping
     public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) Integer maxWeight, @RequestParam(required = false) String type, @RequestParam(required = false) String ability) {
         var getPokemon = queryService.findPokemonByAttributes(name, maxWeight, type, ability);
@@ -47,6 +48,12 @@ public class PokemonController {
         var answer = pokemonDtoService.findAllPokemonWith(name);
         return ResponseEntity.ok(answer);
 
+    }
+
+    @GetMapping("/version")
+    public ResponseEntity<GameIndice> version(@RequestParam String name){
+        var answer = gameDtoService.getGameVersion(name);
+        return ResponseEntity.ok(answer);
     }
 
 }
