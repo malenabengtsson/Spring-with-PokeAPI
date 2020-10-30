@@ -37,7 +37,7 @@ public class AbilityDtoService {
            var newAbility = new Ability();
            List<String> linkedPokemons = new ArrayList<>();
            var fetchedAbility = restTemplate.getForObject(abilityUrl, AbilitiesDto.class);
-           newAbility.setName(fetchedAbility.getName());
+           newAbility.setName(fetchedAbility.getName().replace("-", " "));
            for(AbilityDto abilityName : fetchedAbility.getPokemon()){
                linkedPokemons.add(abilityName.getPokemon().getName());
 

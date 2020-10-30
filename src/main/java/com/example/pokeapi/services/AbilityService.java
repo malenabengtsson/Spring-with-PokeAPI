@@ -49,11 +49,9 @@ public class AbilityService {
     }
 
     public List<Pokemon> getPokemonsWithAbility(String ability){
-        System.out.println("in method getAbility");
         List<Pokemon> matchedPokemons = new ArrayList<>();
         var abilityExist = abilityRepository.findByName(ability);
         if(abilityExist == null){
-            System.out.println("in ability doesn exist");
             var fetchedAbility = abilityDtoService.getAbility(ability);
             this.saveAbility(fetchedAbility);
             for(String pokemonName : fetchedAbility.getLinkedPokemons()){
@@ -73,10 +71,8 @@ public class AbilityService {
 
         }
         else{
-            System.out.println(abilityExist.getName());
             for(String pokemonName : abilityExist.getLinkedPokemons()){
                 var foundPokemon = pokemonService.getByName(pokemonName);
-                System.out.println(foundPokemon == null);
                 if(foundPokemon == null){
                     var fetchPokemon = pokemonDtoService.findAllPokemonWith(pokemonName);
                     pokemonService.savePokemon(fetchPokemon);

@@ -15,10 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@ConfigurationProperties(value = "pokemon.api", ignoreUnknownFields = false)
 public class PokemonService {
-
-    private String url;
 
     @Autowired
     PokemonRepository pokemonRepository;
@@ -35,7 +32,7 @@ public class PokemonService {
     @Autowired
     private AbilityService abilityService;
 
-    public List<Pokemon> findPokemon(String combination, String name, Integer maxWeight, String type, String ability) {
+    public List<Pokemon> findPokemon(String combination, String name, String game, String type, String ability) {
         if (combination.equals("Name")) {
             return this.findPokemonByName(name);
         }
@@ -43,7 +40,7 @@ public class PokemonService {
             return this.findPokemonByType(type);
         }
         if (combination.equals("NameWeightTypeAbility")) {
-            return this.findPokemonByNameWeightTypeAndAbility(name, maxWeight, type, ability);
+            return this.findPokemonByNameGameTypeAndAbility(name, game, type, ability);
         }
         if(combination.equals("Ability")){
             return this.findPokemonByAbility(ability);
@@ -52,17 +49,15 @@ public class PokemonService {
 
     }
 
-    public List<Pokemon> findPokemonByNameWeightTypeAndAbility(String name, Integer maxWeight, String type, String ability) {
+    public List<Pokemon> findPokemonByNameGameTypeAndAbility(String name, String game, String type, String ability) {
 
         List<Pokemon> matchedPokemon = new ArrayList<>();
         List<Pokemon> pokemonToBeAdded = new ArrayList<>();
         var getPokemonNames = this.getPokemonNames(name);
+        //add looking for games
         for (Pokemon pokemon : getPokemonNames) {
-            if (maxWeight.intValue() <= pokemon.getWeight()) {
                 for (Ability abilityName : pokemon.getAbilities()) {
-                    System.out.println(abilityName.getName());
                     for (Type typeName : pokemon.getType()) {
-                        System.out.println(typeName.getName());
                         if (abilityName.getName().equals(ability)) {
                             if (typeName.getName().equals(type)) {
                                 pokemonToBeAdded.add(pokemon);
@@ -73,17 +68,14 @@ public class PokemonService {
                 }
 
             }
-        }
         if (!pokemonToBeAdded.isEmpty()) {
             for (Pokemon isPokemonInDb : pokemonToBeAdded) {
                 var isPokemonSaved = this.getByName(isPokemonInDb.getName());
                 if (isPokemonSaved != null) {
-                    System.out.println(isPokemonInDb.getName());
                     matchedPokemon.add(isPokemonInDb);
                 } else {
                     this.savePokemon(isPokemonInDb);
                     var savedPokemon = this.getByName(isPokemonInDb.getName());
-                    System.out.println(savedPokemon.getName());
                     matchedPokemon.add(savedPokemon);
                 }
             }
@@ -100,7 +92,6 @@ public class PokemonService {
         var fetchedPokemon = this.getPokemonNames(name);
 
         for (Pokemon pokemon : fetchedPokemon) {
-            System.out.println("in fetch loop: " + pokemon.getName());
             var fetchPokemonFromDb = this.getByName(pokemon.getName());
             if (fetchPokemonFromDb != null) {
                 foundPokemons.add(pokemon);
@@ -160,7 +151,6 @@ public class PokemonService {
 
 
     public void savePokemon(Pokemon pokemon) {
-        System.out.println("in save");
         var newPokemon = new Pokemon(pokemon.getIndexNumber(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), pokemon.getType(), pokemon.getAbilities(), pokemon.getGame_indices());
         pokemonRepository.save(newPokemon);
     }
@@ -169,7 +159,4 @@ public class PokemonService {
         return pokemonRepository.findAll();
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }
