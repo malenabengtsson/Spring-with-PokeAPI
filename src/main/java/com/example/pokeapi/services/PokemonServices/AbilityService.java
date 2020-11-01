@@ -1,11 +1,13 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesPlaceholderDto;
-import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilityDto;
 import com.example.pokeapi.dto.PokemonDto;
 import com.example.pokeapi.entities.Ability;
 import com.example.pokeapi.entities.Pokemon;
+import com.example.pokeapi.entities.Type;
 import com.example.pokeapi.repositories.AbilityRepository;
+import com.example.pokeapi.services.PokemonServices.Dtos.AbilityDtoService;
+import com.example.pokeapi.services.PokemonServices.Dtos.PokemonDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +30,17 @@ public class AbilityService {
      private PokemonDtoService pokemonDtoService;
 
 
-    public List<Ability> getAbility(PokemonDto pokemon){
+     public Ability getAbility(String ability){
+         var abilityName = abilityRepository.findByName(ability);
+         if(abilityName == null){
+             var fetchedAbility = abilityDtoService.getAbility(ability);
+             this.saveAbility(fetchedAbility);
+             var savedAbility = abilityRepository.findByName(ability);
+             return savedAbility;
+         }
+         return abilityName;
+     }
+    public List<Ability> getAbilityFrom(PokemonDto pokemon){
         List<Ability> chosenAbility = new ArrayList<>();
 
         for(AbilitiesPlaceholderDto abilities : pokemon.getAbilities()){
@@ -87,6 +99,16 @@ public class AbilityService {
 
         }
         return matchedPokemons;
+    }
+
+    public boolean doesAbilityEquals(String ability, Pokemon pokemon){
+            for(Ability abilityName : pokemon.getAbilities()){
+                if(abilityName.getName().equals(ability)){
+                    return true;
+                }
+            }
+            return false;
+
     }
 
     public void saveAbility(Ability newAbility){

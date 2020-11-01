@@ -1,10 +1,14 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices.Dtos;
 
 import com.example.pokeapi.dto.PokemonDto;
 import com.example.pokeapi.entities.Pokemon;
 import com.example.pokeapi.entities.PokemonNamesAndUrl;
 import com.example.pokeapi.repositories.PokemonNamesAndUrlRepository;
 import com.example.pokeapi.repositories.PokemonRepository;
+import com.example.pokeapi.services.PokemonServices.AbilityService;
+import com.example.pokeapi.services.PokemonServices.GameIndiceService;
+import com.example.pokeapi.services.PokemonServices.TypeService;
+import com.example.pokeapi.services.QueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -53,8 +57,8 @@ public class PokemonDtoService {
     public Pokemon findAllPokemonWith(String name) {
         var urlWithPokemon = url + "pokemon/" + name;
         var pokemon = restTemplate.getForObject(urlWithPokemon, PokemonDto.class);
-        var type = typeService.getType(pokemon);
-        var ability = abilityService.getAbility(pokemon);
+        var type = typeService.getListOfTypes(pokemon);
+        var ability = abilityService.getAbilityFrom(pokemon);
         var gameList = gameIndiceService.getGame(pokemon);
 
 

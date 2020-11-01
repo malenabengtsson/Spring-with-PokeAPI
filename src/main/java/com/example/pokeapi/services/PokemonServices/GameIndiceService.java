@@ -1,9 +1,12 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesPlaceholderDto;
 import com.example.pokeapi.dto.PokemonDto;
 import com.example.pokeapi.entities.GameIndice;
+import com.example.pokeapi.entities.Pokemon;
+import com.example.pokeapi.entities.Type;
 import com.example.pokeapi.repositories.GameIndiceRepository;
+import com.example.pokeapi.services.PokemonServices.Dtos.GameDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,9 @@ public class GameIndiceService {
 
     @Autowired
     private GameIndiceRepository gameIndiceRepository;
+
+    @Autowired
+    private GameDtoService gameDtoService;
 
     public List<GameIndice> getGame(PokemonDto pokemon){
         List<GameIndice> gameList = new ArrayList<>();
@@ -35,6 +41,27 @@ public class GameIndiceService {
         return gameList;
     }
 
+    public GameIndice findGame(String game){
+        var gameExists = gameIndiceRepository.findByGameVersion(game);
+        if(gameExists == null){
+            var chosenGame = gameDtoService.getGameVersion(game);
+            this.saveGame(chosenGame);
+            var savedGame = gameIndiceRepository.findByGameVersion(game);
+            return savedGame;
+        }
+        else {
+            return gameExists;
+        }
+    }
+
+    public boolean doesGameEquals(String game, Pokemon pokemon){
+        for(GameIndice gameName : pokemon.getGame_indices()){
+            if(gameName.getGameVersion().equals(game)){
+                return true;
+            }
+        }
+        return false;
+    }
     public void saveGame(GameIndice game){
         gameIndiceRepository.save(game);
 

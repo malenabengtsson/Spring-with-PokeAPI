@@ -1,4 +1,4 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices.Dtos;
 
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.ResultDto;

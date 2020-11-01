@@ -1,12 +1,12 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypePlaceHolderDataDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypePlaceholderDto;
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.example.pokeapi.dto.PokemonDto;
 import com.example.pokeapi.entities.Pokemon;
 import com.example.pokeapi.entities.Type;
 import com.example.pokeapi.repositories.TypeRepository;
+import com.example.pokeapi.services.PokemonServices.Dtos.PokemonDtoService;
+import com.example.pokeapi.services.PokemonServices.Dtos.TypeDtoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,7 @@ public class TypeService {
     @Autowired
     private PokemonDtoService pokemonDtoService;
 
-
-    public List<Type> getType(PokemonDto pokemon){
+    public List<Type> getListOfTypes(PokemonDto pokemon){
         List<Type> foundTypes = new ArrayList<>();
         for(TypePlaceholderDto type : pokemon.getTypes()) {
             var answer = typeRepository.findByName(type.getType().getName());
@@ -52,12 +51,21 @@ public class TypeService {
         return foundTypes;
     }
 
+    public Type getTypes(String name){
+        var typeName = typeRepository.findByName(name);
+        if(typeName == null){
+            var fetchedType = typeDtoService.getType(name);
+            this.saveType(fetchedType);
+            var savedType = typeRepository.findByName(name);
+            return savedType;
+        }
+        return typeName;
+    }
+
     public List<Pokemon> getPokemonsWithType(String name){
-        System.out.println("In getPokemonWithType method");
         List<Pokemon> matchedPokemon = new ArrayList<>();
         var chosenType = typeRepository.findByName(name);
         if(chosenType == null){
-            System.out.println("in if");
             var type = typeDtoService.getType(name);
             this.saveType(type);
             for(String pokemon : type.getLinkedPokemons()){
@@ -80,7 +88,6 @@ public class TypeService {
         else{
             for(String pokemonName : chosenType.getLinkedPokemons()){
                 var foundPokemon = pokemonService.getByName(pokemonName);
-                System.out.println(foundPokemon == null);
                 if(foundPokemon == null){
                     var fetchPokemon = pokemonDtoService.findAllPokemonWith(pokemonName);
                     pokemonService.savePokemon(fetchPokemon);
@@ -93,6 +100,15 @@ public class TypeService {
             }
         }
         return matchedPokemon;
+    }
+
+    public boolean doesTypeEquals(String type, Pokemon pokemon){
+        for(Type typeName : pokemon.getType()){
+            if(typeName.getName().equals(type)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void saveType(Type newType){

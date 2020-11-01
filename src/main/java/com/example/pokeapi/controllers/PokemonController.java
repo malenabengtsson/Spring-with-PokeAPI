@@ -1,10 +1,16 @@
 package com.example.pokeapi.controllers;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
+import com.example.pokeapi.entities.Ability;
 import com.example.pokeapi.entities.GameIndice;
 import com.example.pokeapi.entities.Pokemon;
+import com.example.pokeapi.entities.Type;
 import com.example.pokeapi.services.*;
+import com.example.pokeapi.services.PokemonServices.Dtos.GameDtoService;
+import com.example.pokeapi.services.PokemonServices.Dtos.PokemonDtoService;
+import com.example.pokeapi.services.PokemonServices.Dtos.PokemonNamesAndUrlDtoService;
+import com.example.pokeapi.services.PokemonServices.Dtos.TypeDtoService;
+import com.example.pokeapi.services.PokemonServices.GameIndiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,41 +25,38 @@ public class PokemonController {
    private QueryService queryService;
 
     @Autowired
-    private PokemonDtoService pokemonDtoService;
-
-    @Autowired
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
 
-    @Autowired
-    private TypeDtoService typeDtoService;
-
-    @Autowired
-    private GameDtoService gameDtoService;
-
-    @GetMapping
+    @GetMapping("/pokemon")
     public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@RequestParam(required = false) String name, @RequestParam(required = false) String game, @RequestParam(required = false) String type, @RequestParam(required = false) String ability) {
         var getPokemon = queryService.findPokemonByAttributes(name, game, type, ability);
         return ResponseEntity.ok(getPokemon);
     }
 
-    @GetMapping("/pokemon")
+    @GetMapping("/getAllpokemonNames")
     public ResponseEntity<PokemonNameAndUrlDto> getAllPokemons() {
         var answer = pokemonNamesAndUrlDtoService.getAllPokemons();
         return ResponseEntity.ok(answer);
 
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<Pokemon> test(@RequestParam String name ){
-        var answer = pokemonDtoService.findAllPokemonWith(name);
+    @GetMapping("/game")
+    public ResponseEntity<GameIndice> getGame(@RequestParam String name){
+        var answer = queryService.findGame(name);
         return ResponseEntity.ok(answer);
-
     }
 
-    @GetMapping("/version")
-    public ResponseEntity<GameIndice> version(@RequestParam String name){
-        var answer = gameDtoService.getGameVersion(name);
+    @GetMapping("/ability")
+    public ResponseEntity<Ability> getAbility(@RequestParam String name){
+        var answer = queryService.findAbility(name);
         return ResponseEntity.ok(answer);
+    }
+
+    @GetMapping("/type")
+    public ResponseEntity<Type> getType(@RequestParam String name){
+        var answer = queryService.findType(name);
+        return ResponseEntity.ok(answer);
+
     }
 
 }

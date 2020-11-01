@@ -1,4 +1,4 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices.Dtos;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.ResultDto;
 import com.example.pokeapi.entities.GameIndice;
@@ -6,10 +6,10 @@ import com.example.pokeapi.repositories.GameIndiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @ConfigurationProperties(value = "pokemon.api", ignoreUnknownFields = false)
@@ -31,12 +31,17 @@ public class GameDtoService {
         var newGameIndice = new GameIndice();
         var gameExists = gameIndiceRepository.findByGameVersion(name);
         if(gameExists == null){
-            var fetchedGame = restTemplate.getForObject(gamesUrl, ResultDto.class);
+            ResultDto fetchedGame = null;
+            try{
+                fetchedGame = restTemplate.getForObject(gamesUrl, ResultDto.class);
+            } catch(Exception e){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No game found with name: " + name);
+            }
             newGameIndice.setGameVersion(fetchedGame.getName().replace("-", " "));
-            newGameIndice.setGameUrl(fetchedGame.getUrl());
+            newGameIndice.setGameUrl(gamesUrl);
             return newGameIndice;
         }
-        return null;
+        return gameExists;
 
     }
 

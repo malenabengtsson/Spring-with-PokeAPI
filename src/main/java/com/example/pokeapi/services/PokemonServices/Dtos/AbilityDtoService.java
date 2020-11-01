@@ -1,4 +1,4 @@
-package com.example.pokeapi.services;
+package com.example.pokeapi.services.PokemonServices.Dtos;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilityDto;
@@ -7,8 +7,10 @@ import com.example.pokeapi.repositories.AbilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,13 @@ public class AbilityDtoService {
        if(abilityExists == null){
            var newAbility = new Ability();
            List<String> linkedPokemons = new ArrayList<>();
-           var fetchedAbility = restTemplate.getForObject(abilityUrl, AbilitiesDto.class);
+           AbilitiesDto fetchedAbility = null;
+           try{
+               fetchedAbility = restTemplate.getForObject(abilityUrl, AbilitiesDto.class);
+           } catch(Exception exception){
+               throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ability found with name: " + name);
+           }
+
            newAbility.setName(fetchedAbility.getName().replace("-", " "));
            for(AbilityDto abilityName : fetchedAbility.getPokemon()){
                linkedPokemons.add(abilityName.getPokemon().getName());

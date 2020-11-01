@@ -16,12 +16,36 @@ public class Query {
     @DBRef
     private List<Pokemon> pokemons;
 
+    @DBRef
+    private GameIndice game;
+
+    @DBRef
+    private Ability ability;
+
+    @DBRef
+    private Type type;
+
     public Query() {
     }
 
     public Query(String queryString, List<Pokemon> pokemons) {
         this.queryString = queryString;
         this.pokemons = pokemons;
+    }
+
+    public Query(String queryString, GameIndice game) {
+        this.queryString = queryString;
+        this.game = game;
+    }
+
+    public Query(String queryString, Ability ability) {
+        this.queryString = queryString;
+        this.ability = ability;
+    }
+
+    public Query(String queryString, Type type) {
+        this.queryString = queryString;
+        this.type = type;
     }
 
     public String getId() {
@@ -46,6 +70,30 @@ public class Query {
 
     public void setPokemons(List<Pokemon> pokemons) {
         this.pokemons = pokemons;
+    }
+
+    public GameIndice getGame() {
+        return game;
+    }
+
+    public void setGame(GameIndice game) {
+        this.game = game;
+    }
+
+    public Ability getAbility() {
+        return ability;
+    }
+
+    public void setAbility(Ability ability) {
+        this.ability = ability;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }
 
