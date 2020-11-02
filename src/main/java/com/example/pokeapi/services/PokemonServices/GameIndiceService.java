@@ -2,9 +2,8 @@ package com.example.pokeapi.services.PokemonServices;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.GameIndices.GameIndicesPlaceholderDto;
 import com.example.pokeapi.dto.PokemonDto;
-import com.example.pokeapi.entities.GameIndice;
-import com.example.pokeapi.entities.Pokemon;
-import com.example.pokeapi.entities.Type;
+import com.example.pokeapi.entities.PokemonEntities.GameIndice;
+import com.example.pokeapi.entities.PokemonEntities.Pokemon;
 import com.example.pokeapi.repositories.GameIndiceRepository;
 import com.example.pokeapi.services.PokemonServices.Dtos.GameDtoService;
 import org.springframework.beans.factory.annotation.Autowired;

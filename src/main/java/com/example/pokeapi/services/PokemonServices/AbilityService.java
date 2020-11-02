@@ -2,9 +2,8 @@ package com.example.pokeapi.services.PokemonServices;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesPlaceholderDto;
 import com.example.pokeapi.dto.PokemonDto;
-import com.example.pokeapi.entities.Ability;
-import com.example.pokeapi.entities.Pokemon;
-import com.example.pokeapi.entities.Type;
+import com.example.pokeapi.entities.PokemonEntities.Ability;
+import com.example.pokeapi.entities.PokemonEntities.Pokemon;
 import com.example.pokeapi.repositories.AbilityRepository;
 import com.example.pokeapi.services.PokemonServices.Dtos.AbilityDtoService;
 import com.example.pokeapi.services.PokemonServices.Dtos.PokemonDtoService;

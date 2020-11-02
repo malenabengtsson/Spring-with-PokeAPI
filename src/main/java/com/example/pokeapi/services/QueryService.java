@@ -1,7 +1,8 @@
 package com.example.pokeapi.services;
 
 
-import com.example.pokeapi.entities.*;
+import com.example.pokeapi.entities.PokemonEntities.*;
+import com.example.pokeapi.entities.Query;
 import com.example.pokeapi.repositories.QueryRepository;
 import com.example.pokeapi.services.PokemonServices.AbilityService;
 import com.example.pokeapi.services.PokemonServices.Dtos.PokemonDtoService;

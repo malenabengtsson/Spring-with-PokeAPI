@@ -1,9 +1,8 @@
 package com.example.pokeapi.services.PokemonServices.Dtos;
 
-import com.example.pokeapi.dto.PokemonDetailDtos.Type.LinkedPokemonDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypeDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Type.TypesDto;
-import com.example.pokeapi.entities.Type;
+import com.example.pokeapi.entities.PokemonEntities.Type;
 import com.example.pokeapi.repositories.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,7 +14,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @ConfigurationProperties(value = "pokemon.api", ignoreUnknownFields = false)

@@ -1,6 +1,9 @@
 package com.example.pokeapi.entities;
 
-import org.bson.types.ObjectId;
+import com.example.pokeapi.entities.PokemonEntities.Ability;
+import com.example.pokeapi.entities.PokemonEntities.GameIndice;
+import com.example.pokeapi.entities.PokemonEntities.Pokemon;
+import com.example.pokeapi.entities.PokemonEntities.Type;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,7 +1,7 @@
 package com.example.pokeapi.services.PokemonServices.Dtos;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.ResultDto;
-import com.example.pokeapi.entities.GameIndice;
+import com.example.pokeapi.entities.PokemonEntities.GameIndice;
 import com.example.pokeapi.repositories.GameIndiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

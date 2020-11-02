@@ -1,16 +1,12 @@
 package com.example.pokeapi.controllers;
 
 import com.example.pokeapi.dto.PokemonNameAndUrlDto;
-import com.example.pokeapi.entities.Ability;
-import com.example.pokeapi.entities.GameIndice;
-import com.example.pokeapi.entities.Pokemon;
-import com.example.pokeapi.entities.Type;
+import com.example.pokeapi.entities.PokemonEntities.Ability;
+import com.example.pokeapi.entities.PokemonEntities.GameIndice;
+import com.example.pokeapi.entities.PokemonEntities.Pokemon;
+import com.example.pokeapi.entities.PokemonEntities.Type;
 import com.example.pokeapi.services.*;
-import com.example.pokeapi.services.PokemonServices.Dtos.GameDtoService;
-import com.example.pokeapi.services.PokemonServices.Dtos.PokemonDtoService;
 import com.example.pokeapi.services.PokemonServices.Dtos.PokemonNamesAndUrlDtoService;
-import com.example.pokeapi.services.PokemonServices.Dtos.TypeDtoService;
-import com.example.pokeapi.services.PokemonServices.GameIndiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

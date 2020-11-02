@@ -1,4 +1,4 @@
-package com.example.pokeapi.entities;
+package com.example.pokeapi.entities.PokemonEntities;
 
 import org.springframework.data.annotation.Id;
 

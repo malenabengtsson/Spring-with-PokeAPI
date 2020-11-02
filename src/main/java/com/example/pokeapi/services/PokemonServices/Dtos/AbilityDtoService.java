@@ -2,7 +2,7 @@ package com.example.pokeapi.services.PokemonServices.Dtos;
 
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilitiesDto;
 import com.example.pokeapi.dto.PokemonDetailDtos.Abilities.AbilityDto;
-import com.example.pokeapi.entities.Ability;
+import com.example.pokeapi.entities.PokemonEntities.Ability;
 import com.example.pokeapi.repositories.AbilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
