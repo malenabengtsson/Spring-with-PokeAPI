@@ -59,11 +59,14 @@ public class PokemonService {
         if (combination.equals("NameTypeAbility")) {
             return this.findPokemonByNameTypeAndAbility(name, type, ability);
         }
-        if(combination.equals("NameGameAbility")){
+        if (combination.equals("NameGameAbility")) {
             return this.findPokemonByNameGameAndAbility(name, game, ability);
         }
-        if(combination.equals("TypeAbility")){
+        if (combination.equals("TypeAbility")) {
             return this.findPokemonByTypeAndAbility(type, ability);
+        }
+        if (combination.equals("NameAbility")) {
+            return this.findPokemonByNameAndAbility(name, ability);
         }
         return null;
 
@@ -112,9 +115,10 @@ public class PokemonService {
         }
         if (matchedPokemons.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
-        } else {
-            return matchedPokemons;
         }
+
+        return matchedPokemons;
+
     }
 
     public List<Pokemon> findPokemonByNameGameAndType(String name, String game, String type) {
@@ -133,9 +137,9 @@ public class PokemonService {
         }
         if (matchedPokemon.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
-        } else {
-            return matchedPokemon;
         }
+        return matchedPokemon;
+
     }
 
     public List<Pokemon> findPokemonByNameAndGame(String name, String game) {
@@ -153,9 +157,9 @@ public class PokemonService {
         }
         if (matchedPokemon.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
-        } else {
-            return matchedPokemon;
         }
+        return matchedPokemon;
+
 
     }
 
@@ -174,9 +178,9 @@ public class PokemonService {
         }
         if (matchedPokemon.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
-        } else {
-            return matchedPokemon;
         }
+        return matchedPokemon;
+
     }
 
     public List<Pokemon> findPokemonByGameTypeAndAbility(String game, String type, String ability) {
@@ -188,6 +192,9 @@ public class PokemonService {
             if (gameExists && abilityExist) {
                 matchedPokemons.add(pokemon);
             }
+        }
+        if (matchedPokemons.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
         }
         return matchedPokemons;
     }
@@ -202,9 +209,13 @@ public class PokemonService {
                 matchedPokemons.add(pokemon);
             }
         }
+        if (matchedPokemons.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
+        }
         return matchedPokemons;
     }
-    public List<Pokemon> findPokemonByNameGameAndAbility(String name, String game, String ability){
+
+    public List<Pokemon> findPokemonByNameGameAndAbility(String name, String game, String ability) {
         var fetchedPokemons = this.getPokemonNames(name);
         List<Pokemon> matchedPokemons = new ArrayList<>();
         for (Pokemon pokemon : fetchedPokemons) {
@@ -214,9 +225,13 @@ public class PokemonService {
                 matchedPokemons.add(pokemon);
             }
         }
+        if (matchedPokemons.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
+        }
         return matchedPokemons;
     }
-    public List<Pokemon> findPokemonByTypeAndAbility(String type, String ability){
+
+    public List<Pokemon> findPokemonByTypeAndAbility(String type, String ability) {
         List<Pokemon> matchedPokemons = new ArrayList<>();
         var pokemonsWithType = typeService.getPokemonsWithType(type);
         for (Pokemon pokemon : pokemonsWithType) {
@@ -224,6 +239,24 @@ public class PokemonService {
             if (abilityExist) {
                 matchedPokemons.add(pokemon);
             }
+        }
+        if (matchedPokemons.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
+        }
+        return matchedPokemons;
+    }
+
+    public List<Pokemon> findPokemonByNameAndAbility(String name, String ability) {
+        List<Pokemon> matchedPokemons = new ArrayList<>();
+        var fetchedPokemons = this.getPokemonNames(name);
+        for (Pokemon pokemon : fetchedPokemons) {
+            var abilityExist = abilityService.doesAbilityEquals(ability, pokemon);
+            if (abilityExist) {
+                matchedPokemons.add(pokemon);
+            }
+        }
+        if (matchedPokemons.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No pokemon found with that combination");
         }
         return matchedPokemons;
     }

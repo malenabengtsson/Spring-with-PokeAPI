@@ -16,7 +16,7 @@ public class PokemonNamesAndUrlDtoService {
 
     private final RestTemplate restTemplate;
     private String url;
-  //  private String totalAmountOfPokemons;
+
 
     @Autowired
     private PokemonNamesAndUrlRepository pokemonNamesAndUrlRepository;
@@ -24,21 +24,23 @@ public class PokemonNamesAndUrlDtoService {
     public PokemonNamesAndUrlDtoService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
-    public PokemonNameAndUrlDto getAllPokemons(){
-        //var urlAllPokemons = url + "pokemon?limit=" + totalAmountOfPokemons;
+
+    public PokemonNameAndUrlDto getAllPokemons() {
+
         var urlAllPokemons = url + "pokemon?limit=1050";
         var list = restTemplate.getForObject(urlAllPokemons, PokemonNameAndUrlDto.class);
 
-        for(ResultDto res : list.getResults()){
+        for (ResultDto res : list.getResults()) {
             this.addPokemonsAndUrlToDb(res);
         }
 
         return list;
     }
-    public void addPokemonsAndUrlToDb(ResultDto res){
+
+    public void addPokemonsAndUrlToDb(ResultDto res) {
         var entry = new PokemonNamesAndUrl(res.getName(), res.getUrl());
         var pokemonExists = pokemonNamesAndUrlRepository.findByName(entry.getName());
-        if(pokemonExists.isEmpty()){
+        if (pokemonExists.isEmpty()) {
             pokemonNamesAndUrlRepository.save(entry);
         }
     }
@@ -46,8 +48,5 @@ public class PokemonNamesAndUrlDtoService {
     public void setUrl(String url) {
         this.url = url;
     }
-/*
-    public void setTotalAmountOfPokemons(String totalAmountOfPokemons) {
-        this.totalAmountOfPokemons = totalAmountOfPokemons;
-    }*/
+
 }

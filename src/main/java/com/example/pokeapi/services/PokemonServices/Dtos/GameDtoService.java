@@ -15,8 +15,8 @@ import org.springframework.web.server.ResponseStatusException;
 @ConfigurationProperties(value = "pokemon.api", ignoreUnknownFields = false)
 public class GameDtoService {
 
-     @Autowired
-     private GameIndiceRepository gameIndiceRepository;
+    @Autowired
+    private GameIndiceRepository gameIndiceRepository;
 
     private final RestTemplate restTemplate;
     private String url;
@@ -25,16 +25,16 @@ public class GameDtoService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public GameIndice getGameVersion(String name){
+    public GameIndice getGameVersion(String name) {
         var correctName = name.replace(" ", "-");
         var gamesUrl = url + "version/" + correctName;
         var newGameIndice = new GameIndice();
         var gameExists = gameIndiceRepository.findByGameVersion(name);
-        if(gameExists == null){
+        if (gameExists == null) {
             ResultDto fetchedGame = null;
-            try{
+            try {
                 fetchedGame = restTemplate.getForObject(gamesUrl, ResultDto.class);
-            } catch(Exception e){
+            } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No game found with name: " + name);
             }
             newGameIndice.setGameVersion(fetchedGame.getName().replace("-", " "));

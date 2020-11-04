@@ -31,29 +31,29 @@ public class AbilityDtoService {
     }
 
 
-    public Ability getAbility(String name){
-       var correctAbility = name.replace(" ", "-");
-       var abilityUrl = url + "ability/" + correctAbility;
-       var abilityExists = abilityRepository.findByName(name);
-       if(abilityExists == null){
-           var newAbility = new Ability();
-           List<String> linkedPokemons = new ArrayList<>();
-           AbilitiesDto fetchedAbility = null;
-           try{
-               fetchedAbility = restTemplate.getForObject(abilityUrl, AbilitiesDto.class);
-           } catch(Exception exception){
-               throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ability found with name: " + name);
-           }
+    public Ability getAbility(String name) {
+        var correctAbility = name.replace(" ", "-");
+        var abilityUrl = url + "ability/" + correctAbility;
+        var abilityExists = abilityRepository.findByName(name);
+        if (abilityExists == null) {
+            var newAbility = new Ability();
+            List<String> linkedPokemons = new ArrayList<>();
+            AbilitiesDto fetchedAbility = null;
+            try {
+                fetchedAbility = restTemplate.getForObject(abilityUrl, AbilitiesDto.class);
+            } catch (Exception exception) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No ability found with name: " + name);
+            }
 
-           newAbility.setName(fetchedAbility.getName().replace("-", " "));
-           for(AbilityDto abilityName : fetchedAbility.getPokemon()){
-               linkedPokemons.add(abilityName.getPokemon().getName());
+            newAbility.setName(fetchedAbility.getName().replace("-", " "));
+            for (AbilityDto abilityName : fetchedAbility.getPokemon()) {
+                linkedPokemons.add(abilityName.getPokemon().getName());
 
-           }
-           newAbility.setLinkedPokemons(linkedPokemons);
-           return newAbility;
-       }
-       return abilityExists;
+            }
+            newAbility.setLinkedPokemons(linkedPokemons);
+            return newAbility;
+        }
+        return abilityExists;
 
     }
 

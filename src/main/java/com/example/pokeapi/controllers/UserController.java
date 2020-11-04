@@ -21,37 +21,35 @@ public class UserController {
 
     @GetMapping
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<List<User>> findAllUsers(@RequestParam(required = false) String username){
+    public ResponseEntity<List<User>> findAllUsers(@RequestParam(required = false) String username) {
         var users = userService.findAll(username);
-        //return new ResponseEntity<>(users, HttpStatus.OK); //200 -
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<User> findById(@PathVariable String id){
+    public ResponseEntity<User> findById(@PathVariable String id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 
 
     @GetMapping("/username/{username}")
     @Secured("ROLE_ADMIN")
-    public User findByUsername(@PathVariable String username){
+    public User findByUsername(@PathVariable String username) {
         return userService.findByUsername(username);
     }
 
 
     @PostMapping
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<User> saveUser(@Validated @RequestBody User user){
-        var answer = userService.saveUser(user);
-        return ResponseEntity.ok(answer);
+    public ResponseEntity<User> saveUser(@Validated @RequestBody User user) {
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
     @PutMapping("/{id}")
     @Secured("ROLE_USER")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@Validated @PathVariable String id, @RequestBody User user){
+    public void updateUser(@Validated @PathVariable String id, @RequestBody User user) {
         userService.updateUser(id, user);
 
     }
@@ -60,11 +58,10 @@ public class UserController {
     @DeleteMapping("/{id}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable String id){
+    public void deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
 
     }
-
 
 
 }

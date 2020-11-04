@@ -21,51 +21,49 @@ public class GameIndiceService {
     @Autowired
     private GameDtoService gameDtoService;
 
-    public List<GameIndice> getGame(PokemonDto pokemon){
+    public List<GameIndice> getGame(PokemonDto pokemon) {
         List<GameIndice> gameList = new ArrayList<>();
-        for(GameIndicesPlaceholderDto games : pokemon.getGame_indices()){
+        for (GameIndicesPlaceholderDto games : pokemon.getGame_indices()) {
             var nameOfGame = games.getVersion().getName().replace("-", " ");
-           var gameExists = gameIndiceRepository.findByGameVersion(nameOfGame);
-           if(gameExists == null){
-               var newGame = new GameIndice(nameOfGame, games.getVersion().getUrl());
-               this.saveGame(newGame);
-               var savedGame = gameIndiceRepository.findByGameVersion(nameOfGame);
-               gameList.add(savedGame);
+            var gameExists = gameIndiceRepository.findByGameVersion(nameOfGame);
+            if (gameExists == null) {
+                var newGame = new GameIndice(nameOfGame, games.getVersion().getUrl());
+                this.saveGame(newGame);
+                var savedGame = gameIndiceRepository.findByGameVersion(nameOfGame);
+                gameList.add(savedGame);
 
-           }
-           else{
-               gameList.add(gameExists);
-           }
+            } else {
+                gameList.add(gameExists);
+            }
         }
         return gameList;
     }
 
-    public GameIndice findGame(String game){
+    public GameIndice findGame(String game) {
         var gameExists = gameIndiceRepository.findByGameVersion(game);
-        if(gameExists == null){
+        if (gameExists == null) {
             var chosenGame = gameDtoService.getGameVersion(game);
             this.saveGame(chosenGame);
             var savedGame = gameIndiceRepository.findByGameVersion(game);
             return savedGame;
-        }
-        else {
+        } else {
             return gameExists;
         }
     }
 
-    public boolean doesGameEquals(String game, Pokemon pokemon){
-        for(GameIndice gameName : pokemon.getGame_indices()){
-            if(gameName.getGameVersion().equals(game)){
+    public boolean doesGameEquals(String game, Pokemon pokemon) {
+        for (GameIndice gameName : pokemon.getGame_indices()) {
+            if (gameName.getGameVersion().equals(game)) {
                 return true;
             }
         }
         return false;
     }
-    public void saveGame(GameIndice game){
+
+    public void saveGame(GameIndice game) {
         gameIndiceRepository.save(game);
 
     }
-
 
 
 }

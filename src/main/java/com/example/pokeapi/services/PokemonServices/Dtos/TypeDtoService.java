@@ -29,23 +29,23 @@ public class TypeDtoService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public Type getType(String type){
+    public Type getType(String type) {
         var typeUrl = url + "type/" + type;
 
         var typeExist = typeRepository.findByName(type);
-        if(typeExist == null){
+        if (typeExist == null) {
             var newType = new Type();
             TypesDto fetchedType = null;
-            try{
-                 fetchedType = restTemplate.getForObject(typeUrl, TypesDto.class);
-            } catch(Exception exception){
+            try {
+                fetchedType = restTemplate.getForObject(typeUrl, TypesDto.class);
+            } catch (Exception exception) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No type found with name: " + type);
             }
 
             List<String> linkedPokemonNames = new ArrayList<>();
 
             newType.setName(fetchedType.getName());
-            for(TypeDto pokemonType : fetchedType.getPokemon()){
+            for (TypeDto pokemonType : fetchedType.getPokemon()) {
                 linkedPokemonNames.add(pokemonType.getPokemon().getName());
             }
             newType.setLinkedPokemons(linkedPokemonNames);

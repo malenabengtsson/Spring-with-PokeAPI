@@ -18,7 +18,7 @@ public class Ability {
     public Ability() {
     }
 
-    public Ability(String name,  List<String> linkedPokemons) {
+    public Ability(String name, List<String> linkedPokemons) {
         this.name = name;
         this.linkedPokemons = linkedPokemons;
     }

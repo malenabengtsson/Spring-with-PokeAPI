@@ -50,31 +50,29 @@ public class QueryService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public List<Pokemon> findPokemonByAttributes(String name, String game, String type, String ability){
-       var combination = this.generateCombinations(name, game, type, ability);
-       var currentQuery = this.generateQuery(combination, name, game, type, ability);
+    public List<Pokemon> findPokemonByAttributes(String name, String game, String type, String ability) {
+        var combination = this.generateCombinations(name, game, type, ability);
+        var currentQuery = this.generateQuery(combination, name, game, type, ability);
         var queryExists = queryRepository.findByQueryString(currentQuery);
 
+        if (queryExists.isEmpty()) {
+            var matchedPokemons = pokemonService.findPokemon(combination, name, game, type, ability);
+            var newQuery = new Query(currentQuery, matchedPokemons);
+            this.saveQueryToDb(newQuery);
+            return matchedPokemons;
 
-        if(queryExists.isEmpty()){
-               var matchedPokemons = pokemonService.findPokemon(combination, name, game, type, ability);
-               var newQuery = new Query(currentQuery, matchedPokemons);
-               this.saveQueryToDb(newQuery);
-               return matchedPokemons;
-
-        }
-        else{
+        } else {
             return queryExists.get().getPokemons();
         }
 
     }
 
-    public GameIndice findGame(String game){
+    public GameIndice findGame(String game) {
         var currentQuery = url + "game=" + game.toLowerCase();
 
         var queryExists = queryRepository.findByQueryString(currentQuery);
 
-        if(queryExists.isEmpty()){
+        if (queryExists.isEmpty()) {
             var fetchedGame = gameIndiceService.findGame(game.toLowerCase());
             var newQuery = new Query(currentQuery, fetchedGame);
             this.saveQueryToDb(newQuery);
@@ -82,11 +80,12 @@ public class QueryService {
         }
         return queryExists.get().getGame();
     }
-    public Ability findAbility(String ability){
+
+    public Ability findAbility(String ability) {
         var currentQuery = url + "ability=" + ability.toLowerCase();
 
         var queryExists = queryRepository.findByQueryString(currentQuery);
-        if(queryExists.isEmpty()){
+        if (queryExists.isEmpty()) {
             var fetchedAbility = abilityService.getAbility(ability.toLowerCase());
             var newQuery = new Query(currentQuery, fetchedAbility);
             this.saveQueryToDb(newQuery);
@@ -94,11 +93,12 @@ public class QueryService {
         }
         return queryExists.get().getAbility();
     }
-    public Type findType(String type){
+
+    public Type findType(String type) {
         var currentQuery = url + "type=" + type.toLowerCase();
 
         var queryExists = queryRepository.findByQueryString(currentQuery);
-        if(queryExists.isEmpty()){
+        if (queryExists.isEmpty()) {
             var fetchedType = typeService.getTypes(type.toLowerCase());
             var newQuery = new Query(currentQuery, fetchedType);
             this.saveQueryToDb(newQuery);
@@ -107,84 +107,72 @@ public class QueryService {
         return queryExists.get().getType();
     }
 
-    public String generateCombinations(String name, String game, String type, String ability){
-        if(name == null && game != null && type != null && ability == null){
+    public String generateCombinations(String name, String game, String type, String ability) {
+        if (name == null && game != null && type != null && ability == null) {
             return "GameType";
-        }
-        else if (name != null && game != null && type != null && ability == null ){
+        } else if (name != null && game != null && type != null && ability == null) {
             return "NameGameType";
 
-        }
-        else if (name != null && game != null && type == null && ability == null){
+        } else if (name != null && game != null && type == null && ability == null) {
             return "NameGame";
 
-        }
-        else if(name != null && game == null && type != null && ability == null){
+        } else if (name != null && game == null && type != null && ability == null) {
             return "NameType";
 
-        }
-        else if(name != null && game != null && type != null && ability != null ){
+        } else if (name != null && game != null && type != null && ability != null) {
             return "NameGameTypeAbility";
 
-        }
-        else if(name == null && game != null && type != null && ability != null ){
+        } else if (name == null && game != null && type != null && ability != null) {
             return "GameTypeAbility";
 
-        }
-        else if(name != null && game == null && type != null && ability != null){
+        } else if (name != null && game == null && type != null && ability != null) {
             return "NameTypeAbility";
 
-        }
-        else if(name != null && game != null && type == null && ability != null){
+        } else if (name != null && game != null && type == null && ability != null) {
             return "NameGameAbility";
-        }
-        else if(name == null && game == null && type != null && ability != null){
+        } else if (name != null && game == null && type == null && ability != null) {
+            return "NameAbility";
+        } else if (name == null && game == null && type != null && ability != null) {
             return "TypeAbility";
-        }
-        else if(name != null & game == null && type == null && ability == null){
+        } else if (name != null & game == null && type == null && ability == null) {
             return "Name";
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Search parameters doesnt match");
     }
-    public String generateQuery(String combination, String name, String game, String type, String ability){
+
+    public String generateQuery(String combination, String name, String game, String type, String ability) {
         String abiltyString = "";
-        if(ability != null){
+        if (ability != null) {
             abiltyString = ability.replace(" ", "-");
         }
 
-        if(combination.equals("GameType")){
-            return url + "game=" + game + "type=" + type;
-        }
-        else if (combination.equals("NameGameType")){
-            return url + "name=" + name + "game=" + game + "type=" + type;
-        }
-        else if (combination.equals("NameGame")){
-            return url + "name=" + name + "game=" + game;
-        }
-        else if(combination.equals("NameType")){
-            return url + "name=" + name + "type=" + type;
-        }
-        else if(combination.equals("NameGameTypeAbility")){
-            return url + "name=" + name + "game=" + game + "type=" + type + "ability=" + abiltyString;
-        }
-        else if(combination.equals("GameTypeAbility")){
-            return  url + "game=" + game + "type=" + type + "ability=" + abiltyString;
-        }
-        else if(combination.equals("NameTypeAbility")){
-            return url + "name=" + name + "type=" + type + "ability=" + abiltyString;
-        }
-        else if(combination.equals("NameGameAbility")){
-            return url + "name=" +  name + "game=" + game +  "ability=" + abiltyString;
-        }
-        else if(combination.equals("TypeAbility")){
-            return url + "type="+ type + "ability=" + abiltyString;
-        }
-        else if(combination.equals("Name")){
-            return url + "name=" + name;
+        if (combination.equals("GameType")) {
+            return String.format("%sgame=%s&type=%s", url, game, type);
+        } else if (combination.equals("NameGameType")) {
+            return String.format("%sname=%s&game=%s&type=%s", url, name, game, type);
+        } else if (combination.equals("NameGame")) {
+            return String.format("%sname=%s&game=%s", url, name, game);
+        } else if (combination.equals("NameType")) {
+            return String.format("%sname=%s&type=%s", url, name, type);
+        } else if (combination.equals("NameGameTypeAbility")) {
+            return String.format("%sname=%s&game=%s&type=%s&ability=%s", url, name, game, type, abiltyString);
+        } else if (combination.equals("GameTypeAbility")) {
+            return String.format("%sgame=%s&type=%s&ability=%s", url, game, type, abiltyString);
+        } else if (combination.equals("NameTypeAbility")) {
+            return String.format("%sname=%s&type=%s&ability=%s", url, name, type, abiltyString);
+        } else if (combination.equals("NameGameAbility")) {
+            return String.format("%sname=%s&game=%s&ability=%s", url, name, game, abiltyString);
+        } else if (combination.equals("TypeAbility")) {
+            return String.format("%stype=%s&ability=%s", url, type, abiltyString);
+        } else if (combination.equals("NameAbility")) {
+            return String.format("%sname=%s&ability=%s", url, name, abiltyString);
+        } else if (combination.equals("Name")) {
+            return String.format("%sname=%s", url, name);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Search parameters doesnt match");
     }
-    public void saveQueryToDb(Query query){
+
+    public void saveQueryToDb(Query query) {
         queryRepository.save(query);
     }
 

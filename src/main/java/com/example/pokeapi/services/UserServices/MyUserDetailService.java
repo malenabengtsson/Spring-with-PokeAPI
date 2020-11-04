@@ -22,7 +22,7 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User name " + username + " not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
@@ -30,7 +30,7 @@ public class MyUserDetailService implements UserDetailsService {
                 getGrantedAuthorities(user));
     }
 
-    private Collection<GrantedAuthority> getGrantedAuthorities(User user){
+    private Collection<GrantedAuthority> getGrantedAuthorities(User user) {
         return user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role)).collect(Collectors.toList());

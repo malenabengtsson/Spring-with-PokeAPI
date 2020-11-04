@@ -30,30 +30,29 @@ public class TypeService {
     @Autowired
     private PokemonDtoService pokemonDtoService;
 
-    public List<Type> getListOfTypes(PokemonDto pokemon){
+    public List<Type> getListOfTypes(PokemonDto pokemon) {
         List<Type> foundTypes = new ArrayList<>();
-        for(TypePlaceholderDto type : pokemon.getTypes()) {
+        for (TypePlaceholderDto type : pokemon.getTypes()) {
             var answer = typeRepository.findByName(type.getType().getName());
-            if(answer == null){
+            if (answer == null) {
                 var newType = typeDtoService.getType(type.getType().getName());
                 this.saveType(newType);
                 var fetchedType = typeRepository.findByName(type.getType().getName());
                 foundTypes.add(fetchedType);
-            }
-            else{
+            } else {
                 foundTypes.add(answer);
             }
 
         }
-        if(foundTypes.isEmpty()){
+        if (foundTypes.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Type cannot be found");
         }
         return foundTypes;
     }
 
-    public Type getTypes(String name){
+    public Type getTypes(String name) {
         var typeName = typeRepository.findByName(name);
-        if(typeName == null){
+        if (typeName == null) {
             var fetchedType = typeDtoService.getType(name);
             this.saveType(fetchedType);
             var savedType = typeRepository.findByName(name);
@@ -62,39 +61,36 @@ public class TypeService {
         return typeName;
     }
 
-    public List<Pokemon> getPokemonsWithType(String name){
+    public List<Pokemon> getPokemonsWithType(String name) {
         List<Pokemon> matchedPokemon = new ArrayList<>();
         var chosenType = typeRepository.findByName(name);
-        if(chosenType == null){
+        if (chosenType == null) {
             var type = typeDtoService.getType(name);
             this.saveType(type);
-            for(String pokemon : type.getLinkedPokemons()){
+            for (String pokemon : type.getLinkedPokemons()) {
                 var foundPokemon = pokemonService.getPokemonNames(pokemon);
-                for(Pokemon poke : foundPokemon){
+                for (Pokemon poke : foundPokemon) {
                     var pokemonExistInDb = pokemonService.getByName(poke.getName());
-                    if(pokemonExistInDb == null){
+                    if (pokemonExistInDb == null) {
                         pokemonService.savePokemon(poke);
                         var savedPokemon = pokemonService.getByName(poke.getName());
                         matchedPokemon.add(savedPokemon);
-                    }
-                    else{
+                    } else {
                         matchedPokemon.add(pokemonExistInDb);
                     }
                 }
 
 
             }
-        }
-        else{
-            for(String pokemonName : chosenType.getLinkedPokemons()){
+        } else {
+            for (String pokemonName : chosenType.getLinkedPokemons()) {
                 var foundPokemon = pokemonService.getByName(pokemonName);
-                if(foundPokemon == null){
+                if (foundPokemon == null) {
                     var fetchPokemon = pokemonDtoService.findAllPokemonWith(pokemonName);
                     pokemonService.savePokemon(fetchPokemon);
                     var savedPokemon = pokemonService.getByName(pokemonName);
                     matchedPokemon.add(savedPokemon);
-                }
-                else {
+                } else {
                     matchedPokemon.add(foundPokemon);
                 }
             }
@@ -102,16 +98,16 @@ public class TypeService {
         return matchedPokemon;
     }
 
-    public boolean doesTypeEquals(String type, Pokemon pokemon){
-        for(Type typeName : pokemon.getType()){
-            if(typeName.getName().equals(type)){
+    public boolean doesTypeEquals(String type, Pokemon pokemon) {
+        for (Type typeName : pokemon.getType()) {
+            if (typeName.getName().equals(type)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void saveType(Type newType){
+    public void saveType(Type newType) {
         typeRepository.save(newType);
     }
 }

@@ -62,7 +62,7 @@ public class PokemonDtoService {
         var gameList = gameIndiceService.getGame(pokemon);
 
 
-        return new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), type, ability , gameList);
+        return new Pokemon(pokemon.getOrder(), pokemon.getName(), pokemon.getHeight(), pokemon.getWeight(), type, ability, gameList);
     }
 
     public void setUrl(String url) {

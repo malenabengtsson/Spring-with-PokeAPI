@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AbilityRepository extends MongoRepository<Ability, String> {
-
     Ability findByName(String name);
 }

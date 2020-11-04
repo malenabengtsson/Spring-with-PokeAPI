@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class PokemonController {
 
-   @Autowired
-   private QueryService queryService;
+    @Autowired
+    private QueryService queryService;
 
     @Autowired
     private PokemonNamesAndUrlDtoService pokemonNamesAndUrlDtoService;
@@ -42,21 +42,21 @@ public class PokemonController {
 
     @GetMapping("/game")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<GameIndice> getGame(@RequestParam String name){
+    public ResponseEntity<GameIndice> getGame(@RequestParam String name) {
         var answer = queryService.findGame(name);
         return ResponseEntity.ok(answer);
     }
 
     @GetMapping("/ability")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Ability> getAbility(@RequestParam String name){
+    public ResponseEntity<Ability> getAbility(@RequestParam String name) {
         var answer = queryService.findAbility(name);
         return ResponseEntity.ok(answer);
     }
 
     @GetMapping("/type")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Type> getType(@RequestParam String name){
+    public ResponseEntity<Type> getType(@RequestParam String name) {
         var answer = queryService.findType(name);
         return ResponseEntity.ok(answer);
 
