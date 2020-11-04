@@ -1,7 +1,13 @@
 package com.example.pokeapi.controllers;
 
+import com.example.pokeapi.entities.PokemonEntities.GameIndice;
 import com.example.pokeapi.entities.User;
 import com.example.pokeapi.services.UserServices.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +25,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "Get a list of users")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Correct user role and info is being displayed",
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GameIndice.class))}),
+            @ApiResponse(responseCode = "403", description = "Forbidden. Wrong role, info wont be displayed", content = @Content)})
     @GetMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<List<User>> findAllUsers(@RequestParam(required = false) String username) {
