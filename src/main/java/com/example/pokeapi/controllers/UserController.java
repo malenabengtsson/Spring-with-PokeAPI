@@ -2,18 +2,21 @@ package com.example.pokeapi.controllers;
 
 import com.example.pokeapi.entities.User;
 import com.example.pokeapi.services.UserServices.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
+    @Autowired
     private UserService userService;
 
     @GetMapping
@@ -34,7 +37,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user){
+    public ResponseEntity<User> saveUser(@Validated @RequestBody User user){
         var answer = userService.saveUser(user);
         return ResponseEntity.ok(answer);
     }
@@ -46,6 +49,7 @@ public class UserController {
 
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable String id){
         userService.deleteUser(id);

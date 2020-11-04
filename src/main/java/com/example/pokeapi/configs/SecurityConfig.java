@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/pokemon").permitAll()
+                //.antMatchers("/api/v1/pokemon").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)
