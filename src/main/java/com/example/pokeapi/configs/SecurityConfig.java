@@ -25,36 +25,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationEntryPoint entryPoint;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception{
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
                 .formLogin().disable()
                 .authorizeRequests()
-                //.antMatchers("/api/v1/pokemon").permitAll()
-                .antMatchers("/api/v1/**").permitAll()
+                .antMatchers("/api/v1/pokemon").permitAll()
+                .antMatchers("/api/v1/**").authenticated()
                 .and()
                 .httpBasic().authenticationEntryPoint(entryPoint)
                 .and()
                 .logout(l -> l.logoutSuccessUrl("/"));
-
-
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception{
-        authentication.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passWordEncoder().encode("password"))
-                .roles("User");
     }
 
     @Bean
-    public PasswordEncoder passWordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

@@ -22,7 +22,6 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public List<User> findAll(String username) {
-        System.out.println("In method");
         if(username != null){
             var user = userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Couldn't find user with username: %s", username)));
             return List.of(user);
@@ -41,7 +40,6 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
     }
     public User saveUser(User user){
-        System.out.println("In user ");
         if(StringUtils.isEmpty(user.getPassword())){
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, "I need a password");
         }
@@ -52,7 +50,9 @@ public class UserService {
         if(!userRepository.existsById(id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ("Couldn't find user"));
         }
-        if(this.getCurrentUser().equals(user.getName())){
+        var currentUser = this.getCurrentUser();
+        var foundUser = userRepository.findByName(currentUser).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldnt found user with that name!"));
+        if(foundUser.getId().equals(id)){
             user.setId(id);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
@@ -62,6 +62,7 @@ public class UserService {
         }
 
     }
+
     public void deleteUser(String id){
         if(!userRepository.existsById(id)){
             throw new RuntimeException();

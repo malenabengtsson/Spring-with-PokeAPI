@@ -20,6 +20,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<List<User>> findAllUsers(@RequestParam(required = false) String username){
         var users = userService.findAll(username);
         //return new ResponseEntity<>(users, HttpStatus.OK); //200 -
@@ -27,30 +28,38 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<User> findById(@PathVariable String id){
         return ResponseEntity.ok(userService.findById(id));
     }
 
+
     @GetMapping("/username/{username}")
+    @Secured("ROLE_ADMIN")
     public User findByUsername(@PathVariable String username){
         return userService.findByUsername(username);
     }
 
+
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<User> saveUser(@Validated @RequestBody User user){
         var answer = userService.saveUser(user);
         return ResponseEntity.ok(answer);
     }
 
     @PutMapping("/{id}")
+    @Secured("ROLE_USER")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateUser(@Validated @PathVariable String id, @RequestBody User user){
         userService.updateUser(id, user);
 
     }
 
-    @Secured("ROLE_ADMIN")
+
     @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable String id){
         userService.deleteUser(id);
 

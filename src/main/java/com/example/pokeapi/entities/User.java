@@ -18,7 +18,6 @@ public class User {
     private String name;
     @NotEmpty
     private String username;
-    @NotEmpty @Size(min = 8, max = 12)
     private String password;
     private List<String> roles;
 
