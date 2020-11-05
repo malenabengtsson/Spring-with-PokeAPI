@@ -1,1 +1,1 @@
-C:\jdk\jdk-11\bin\java.exe -jar pokeapi.jar
+C:\jdk\jdk-12\bin\java.exe -jar pokeapi.jar
