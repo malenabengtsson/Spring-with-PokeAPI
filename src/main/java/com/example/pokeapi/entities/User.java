@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.util.List;
+@Document(collection = "User")
 public class User {
     @Id
     private String id;

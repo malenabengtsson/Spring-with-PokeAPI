@@ -34,18 +34,20 @@ public class PokemonController {
     @ApiResponse(responseCode = "404", description = "No pokemon found with chosen combination", content = @Content)})
     @GetMapping("/pokemon")
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<List<Pokemon>> findPokemonByAttributes(@Parameter(description = "Name of pokemon") @RequestParam(required = false) String name,
-                                                                 @Parameter(description = "Name of game")@RequestParam(required = false) String game,
-                                                                 @Parameter(description = "Type of pokemon")@RequestParam(required = false) String type,
-                                                                 @Parameter(description = "Name of ability")@RequestParam(required = false) String ability) {
+    public ResponseEntity<List<Pokemon>> findPokemonByAttributes(
+            @Parameter(description = "Name of pokemon") @RequestParam(required = false) String name,
+            @Parameter(description = "Name of game")@RequestParam(required = false) String game,
+            @Parameter(description = "Type of pokemon")@RequestParam(required = false) String type,
+            @Parameter(description = "Name of ability")@RequestParam(required = false) String ability) {
         var getPokemon = queryService.findPokemonByAttributes(name, game, type, ability);
         return ResponseEntity.ok(getPokemon);
     }
 
 
-    @Operation(summary = "Get all pokemon  names and url")
+    @Operation(summary = "Get all pokemon  names and url, only has to be done once")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Found pokemons",
-            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PokemonNamesAndUrl.class))})})
+            content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PokemonNamesAndUrl.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping("/getAllpokemonNames")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<PokemonNameAndUrlDto> getAllPokemons() {
@@ -57,10 +59,11 @@ public class PokemonController {
     @Operation(summary = "Get a pokemongame")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Found game with chosen name",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GameIndice.class))}),
-            @ApiResponse(responseCode = "404", description = "No games found with chosen name", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "No games found with chosen name", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping("/game")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<GameIndice> getGame(@RequestParam String name) {
+    public ResponseEntity<GameIndice> getGame(@Parameter(description = "Name of game")@RequestParam String name) {
         var answer = queryService.findGame(name);
         return ResponseEntity.ok(answer);
     }
@@ -68,20 +71,22 @@ public class PokemonController {
     @Operation(summary = "Get ability and get a list of pokemons that has the chosen ability")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Found ability with chosen name",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GameIndice.class))}),
-            @ApiResponse(responseCode = "404", description = "No ability found with chosen name", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "No ability found with chosen name", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping("/ability")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Ability> getAbility(@RequestParam String name) {
+    public ResponseEntity<Ability> getAbility(@Parameter(description = "Name of ability")@RequestParam String name) {
         var answer = queryService.findAbility(name);
         return ResponseEntity.ok(answer);
     }
     @Operation(summary = "Get type and get a list of pokemons with chosen type")
     @ApiResponses(value = {@ApiResponse (responseCode = "200", description = "Found type with chosen name",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GameIndice.class))}),
-            @ApiResponse(responseCode = "404", description = "No type found with chosen name", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "No type found with chosen name", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping("/type")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Type> getType(@RequestParam String name) {
+    public ResponseEntity<Type> getType(@Parameter(description = "Name of type")@RequestParam String name) {
         var answer = queryService.findType(name);
         return ResponseEntity.ok(answer);
 

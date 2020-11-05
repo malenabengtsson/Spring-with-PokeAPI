@@ -39,7 +39,7 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(RuntimeException::new);
+        return userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Couldnt find user by username %s", username)));
     }
 
     public User saveUser(User user) {
@@ -55,20 +55,20 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ("Couldn't find user"));
         }
         var currentUser = this.getCurrentUser();
-        var foundUser = userRepository.findByName(currentUser).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldnt found user with that name!"));
+        var foundUser = userRepository.findByName(currentUser).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Couldnt find user with that name!"));
         if (foundUser.getId().equals(id)) {
             user.setId(id);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You can only edit your own information");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can only edit your own information");
         }
 
     }
 
     public void deleteUser(String id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Couldn't find user by id %s", id));
         }
         userRepository.deleteById(id);
     }
