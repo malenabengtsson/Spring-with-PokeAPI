@@ -33,7 +33,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<List<User>> findAllUsers(@Parameter(description = "Username to search by")@RequestParam(required = false) String username) {
+    public ResponseEntity<List<User>> findAllUsers(@Parameter(description = "Username to search by") @RequestParam(required = false) String username) {
         var users = userService.findAll(username);
         return ResponseEntity.ok(users);
     }
@@ -42,11 +42,11 @@ public class UserController {
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Info is being displayed",
             content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "403", description = "Forbidden. Wrong role, info wont be displayed", content = @Content),
-    @ApiResponse(responseCode = "404", description = "No user found with chosen id", content = @Content),
+            @ApiResponse(responseCode = "404", description = "No user found with chosen id", content = @Content),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping("/{id}")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<User> findById(@Parameter(description = "Id to search by")@PathVariable String id) {
+    public ResponseEntity<User> findById(@Parameter(description = "Id to search by") @PathVariable String id) {
         return ResponseEntity.ok(userService.findById(id));
     }
 
@@ -58,7 +58,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @GetMapping("/username/{username}")
     @Secured("ROLE_ADMIN")
-    public User findByUsername(@Parameter(description = "Username to search by")@PathVariable String username) {
+    public User findByUsername(@Parameter(description = "Username to search by") @PathVariable String username) {
         return userService.findByUsername(username);
     }
 
@@ -70,7 +70,7 @@ public class UserController {
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)})
     @PostMapping
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<User> saveUser(@Validated @Parameter(description = "New user to add")@RequestBody User user) {
+    public ResponseEntity<User> saveUser(@Validated @Parameter(description = "New user to add") @RequestBody User user) {
         return ResponseEntity.ok(userService.saveUser(user));
     }
 
@@ -84,7 +84,7 @@ public class UserController {
     @PutMapping("/{id}")
     @Secured("ROLE_USER")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateUser(@Validated @Parameter(description = "Id to update")@PathVariable String id, @Parameter(description = "User object to update")@RequestBody User user) {
+    public void updateUser(@Validated @Parameter(description = "Id to update") @PathVariable String id, @Parameter(description = "User object to update") @RequestBody User user) {
         userService.updateUser(id, user);
 
     }
@@ -98,7 +98,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @Secured("ROLE_ADMIN")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@Parameter(description = "Id from user thats being deleted")@PathVariable String id) {
+    public void deleteUser(@Parameter(description = "Id from user thats being deleted") @PathVariable String id) {
         userService.deleteUser(id);
 
     }

@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface PokemonNamesAndUrlRepository extends MongoRepository<PokemonNamesAndUrl, String> {
+
     Optional<PokemonNamesAndUrl> findByName(String name);
 
 

@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GameIndiceRepository extends MongoRepository<GameIndice, String> {
+
     GameIndice findByGameVersion(String gameVersion);
 }

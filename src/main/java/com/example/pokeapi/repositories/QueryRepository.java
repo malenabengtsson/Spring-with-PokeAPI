@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface QueryRepository extends MongoRepository<Query, String> {
+
     Optional<Query> findByQueryString(String queryString);
 }

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.util.List;
+
 @Document(collection = "User")
 public class User {
     @Id
@@ -29,8 +30,7 @@ public class User {
         this.roles = roles;
     }
 
-    public User() {
-    }
+    public User() {}
 
     public String getId() {
         return id;
